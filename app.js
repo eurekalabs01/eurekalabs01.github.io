@@ -3,17 +3,41 @@
 //  EUREKA LABS — HOME PAGE RENDERING (app.js)
 //
 //  Reads data from data.js and renders the home page:
-//  filters, lab catalog list, and team grid.
+//  search, sort, filters, lab catalog list, and team grid.
 //
 //  You should NOT need to edit this file — edit data.js instead.
 //
 // ============================================================================
 
 
-// --- Filter State -----------------------------------------------------------
+// --- State ------------------------------------------------------------------
 
 let activeCat   = "all";
 let activeLevel = "all";
+let activeSort  = "alpha";
+let searchQuery = "";
+
+
+// --- Search & Sort ----------------------------------------------------------
+
+function buildSearchSort() {
+  const searchEl = document.getElementById("lab-search");
+  const sortEl   = document.getElementById("sort-controls");
+
+  searchEl.addEventListener("input", function() {
+    searchQuery = this.value.trim().toLowerCase();
+    renderLabs();
+  });
+
+  sortEl.addEventListener("click", function(e) {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    activeSort = btn.dataset.sort;
+    sortEl.querySelectorAll(".filter-btn").forEach(function(b) { b.setAttribute("aria-pressed", "false"); });
+    btn.setAttribute("aria-pressed", "true");
+    renderLabs();
+  });
+}
 
 
 // --- Filters ----------------------------------------------------------------
@@ -57,19 +81,38 @@ function buildFilters() {
 // --- Lab List ---------------------------------------------------------------
 
 function renderLabs() {
-  const filtered = LABS.filter(function(lab) {
+  const listEl  = document.getElementById("labs-list");
+  const countEl = document.getElementById("labs-count");
+  const emptyEl = document.getElementById("no-results");
+
+  // 1. Filter by category and level
+  let results = LABS.filter(function(lab) {
     const catOk   = activeCat   === "all" || lab.categories.indexOf(activeCat) !== -1;
     const levelOk = activeLevel === "all" || lab.level === activeLevel;
     return catOk && levelOk;
   });
 
-  const listEl  = document.getElementById("labs-list");
-  const countEl = document.getElementById("labs-count");
-  const emptyEl = document.getElementById("no-results");
+  // 2. Filter by search query (matches title, description, authors)
+  if (searchQuery) {
+    const words = searchQuery.split(/\s+/);
+    results = results.filter(function(lab) {
+      const haystack = [lab.title, lab.description, lab.authors]
+        .filter(Boolean).join(" ").toLowerCase();
+      return words.every(function(word) { return haystack.includes(word); });
+    });
+  }
 
-  countEl.textContent = filtered.length + " lab" + (filtered.length !== 1 ? "s" : "");
+  // 3. Sort
+  results = results.slice().sort(function(a, b) {
+    if (activeSort === "alpha")  return a.title.localeCompare(b.title);
+    if (activeSort === "newest") return new Date(b.updated) - new Date(a.updated);
+    if (activeSort === "oldest") return new Date(a.updated) - new Date(b.updated);
+    return 0;
+  });
 
-  if (filtered.length === 0) {
+  countEl.textContent = results.length + " lab" + (results.length !== 1 ? "s" : "");
+
+  if (results.length === 0) {
     listEl.classList.add("hidden");
     emptyEl.style.display = "block";
     return;
@@ -78,7 +121,7 @@ function renderLabs() {
   listEl.classList.remove("hidden");
   emptyEl.style.display = "none";
 
-  listEl.innerHTML = filtered.map(function(lab) {
+  listEl.innerHTML = results.map(function(lab) {
     const catTags = lab.categories.map(function(catId) {
       const c = CATEGORIES[catId] || { label: catId, color: "#666", bg: "#eee" };
       return tagHTML(c.label, c.color, c.bg);
@@ -119,6 +162,7 @@ function renderTeam() {
 // --- Init -------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", function() {
+  buildSearchSort();
   buildFilters();
   renderLabs();
   renderTeam();

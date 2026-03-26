@@ -91,7 +91,21 @@
     <div class="container">
       <div class="section-eyebrow">Catalog</div>
       <div class="section-title">Lab collection</div>
-      <div class="section-desc">Each lab includes procedures, learning objectives, and resources. Filter by category or difficulty level.</div>
+      <div class="section-desc">Each lab includes procedures, learning objectives, and resources. Search, sort, or filter by category and level.</div>
+      <div class="search-sort-row">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+          <input type="search" id="lab-search" placeholder="Search labs…" autocomplete="off" aria-label="Search labs">
+        </div>
+        <div class="filter-group">
+          <span id="sort-label">Sort</span>
+          <div class="filter-chips" id="sort-controls" role="group" aria-labelledby="sort-label">
+            <button class="filter-btn" aria-pressed="true"  data-sort="alpha">A–Z</button>
+            <button class="filter-btn" aria-pressed="false" data-sort="newest">Newest</button>
+            <button class="filter-btn" aria-pressed="false" data-sort="oldest">Oldest</button>
+          </div>
+        </div>
+      </div>
       <div class="filters-row">
         <div class="filter-group">
           <span id="cat-label">Category</span>
