@@ -92,19 +92,9 @@
       <div class="section-eyebrow">Catalog</div>
       <div class="section-title">Lab collection</div>
       <div class="section-desc">Each lab includes procedures, learning objectives, and resources. Search, sort, or filter by category and level.</div>
-      <div class="search-sort-row">
-        <div class="search-wrap">
-          <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
-          <input type="search" id="lab-search" placeholder="Search labs…" autocomplete="off" aria-label="Search labs">
-        </div>
-        <div class="filter-group">
-          <span id="sort-label">Sort</span>
-          <div class="filter-chips" id="sort-controls" role="group" aria-labelledby="sort-label">
-            <button class="filter-btn" aria-pressed="true"  data-sort="alpha">A–Z</button>
-            <button class="filter-btn" aria-pressed="false" data-sort="newest">Newest</button>
-            <button class="filter-btn" aria-pressed="false" data-sort="oldest">Oldest</button>
-          </div>
-        </div>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l3 3"/></svg>
+        <input type="search" id="lab-search" placeholder="Search labs…" autocomplete="off" aria-label="Search labs">
       </div>
       <div class="filters-row">
         <div class="filter-group">
@@ -114,6 +104,14 @@
         <div class="filter-group">
           <span id="level-label">Level</span>
           <div class="filter-chips" id="level-filters" role="group" aria-labelledby="level-label"></div>
+        </div>
+        <div class="filter-group">
+          <span id="sort-label">Sort</span>
+          <div class="filter-chips" id="sort-controls" role="group" aria-labelledby="sort-label">
+            <button class="filter-btn" aria-pressed="true"  data-sort="alpha">A–Z</button>
+            <button class="filter-btn" aria-pressed="false" data-sort="newest">Newest</button>
+            <button class="filter-btn" aria-pressed="false" data-sort="oldest">Oldest</button>
+          </div>
         </div>
       </div>
       <div class="labs-count" id="labs-count" aria-live="polite"></div>

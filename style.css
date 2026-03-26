@@ -94,10 +94,9 @@ section { padding: 6rem 3rem; }
 
 /* --- Lab catalog (index.html) --- */
 .labs { background: var(--color-surface); border-top: var(--border-subtle); border-bottom: var(--border-subtle); }
-.search-sort-row { display: flex; gap: 2rem; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; }
-.search-wrap { position: relative; flex: 1; min-width: 200px; }
+.search-wrap { position: relative; margin-bottom: 1.5rem; }
 .search-icon { position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; stroke: var(--color-text-muted); pointer-events: none; }
-#lab-search { width: 100%; padding: 0.5rem 1rem 0.5rem 2.4rem; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-pill); background: var(--color-page); font-family: var(--font-sans); font-size: 0.82rem; color: var(--color-text); outline: none; transition: border-color 0.2s; }
+#lab-search { width: 100%; padding: 0.55rem 1rem 0.55rem 2.4rem; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-pill); background: var(--color-page); font-family: var(--font-sans); font-size: 0.88rem; color: var(--color-text); outline: none; transition: border-color 0.2s; }
 #lab-search::placeholder { color: var(--color-text-muted); }
 #lab-search:focus { border-color: var(--color-forest); }
 .filters-row { display: flex; gap: 2.5rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: flex-start; }
@@ -163,8 +162,6 @@ footer p { font-size: 0.78rem; color: var(--color-text-faint); }
   .hero { padding: 8rem 1.5rem 4rem; }
   section { padding: 4rem 1.5rem; }
   .about-columns { grid-template-columns: 1fr; }
-  .search-sort-row { flex-direction: column; align-items: stretch; }
-  .search-wrap { min-width: unset; }
   .filters-row { gap: 1.5rem; }
   .lab-row { grid-template-columns: 48px 1fr; gap: 0.75rem; padding: 1rem 1.25rem; }
   .lab-thumb { width: 48px; height: 48px; }
