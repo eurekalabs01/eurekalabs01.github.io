@@ -225,9 +225,11 @@ function memberHTML(m) {
 function renderTeam() {
   const pis   = TEAM.filter(function(m) { return m.group === "pi"; });
   const colls = TEAM.filter(function(m) { return m.group === "collaborator"; });
+  const ras   = TEAM.filter(function(m) { return m.group === "ra"; });
 
-  document.getElementById("team-grid").innerHTML        = pis.map(memberHTML).join("");
-  document.getElementById("collab-grid").innerHTML      = colls.map(memberHTML).join("");
+  document.getElementById("team-grid").innerHTML   = pis.map(memberHTML).join("");
+  document.getElementById("collab-grid").innerHTML = colls.map(memberHTML).join("");
+  document.getElementById("ra-grid").innerHTML     = ras.map(memberHTML).join("");
 }
 
 
