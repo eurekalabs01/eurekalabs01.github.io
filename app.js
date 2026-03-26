@@ -206,22 +206,28 @@ function renderPagination(total) {
 
 // --- Team -------------------------------------------------------------------
 
+function memberHTML(m) {
+  const avatar = m.image
+    ? '<img class="team-avatar" src="' + esc(m.image) + '" alt="Photo of ' + esc(m.name) + '">'
+    : '<div class="team-avatar">' + esc(m.name.charAt(0)) + '</div>';
+  const nameHTML = m.url
+    ? '<a href="' + esc(m.url) + '" target="_blank" rel="noopener">' + esc(m.name) + '</a>'
+    : esc(m.name);
+  return '<div class="team-member">' +
+    avatar +
+    '<div><h4>' + nameHTML + '</h4>' +
+    '<div class="role">' + esc(m.role) + '</div>' +
+    (m.affiliation ? '<div class="affil">' + esc(m.affiliation) + '</div>' : '') +
+    '</div>' +
+  '</div>';
+}
+
 function renderTeam() {
-  const grid = document.getElementById("team-grid");
-  grid.innerHTML = TEAM.map(function(m) {
-    const avatar = m.image
-      ? '<img class="team-avatar" src="' + esc(m.image) + '" alt="Photo of ' + esc(m.name) + '">'
-      : '<div class="team-avatar">' + esc(m.name.charAt(0)) + '</div>';
-    const nameHTML = m.url
-      ? '<a href="' + esc(m.url) + '" target="_blank" rel="noopener">' + esc(m.name) + '</a>'
-      : esc(m.name);
-    return '<div class="team-member">' +
-      avatar +
-      '<div><h4>' + nameHTML + '</h4>' +
-      '<div class="role">' + esc(m.role) + '</div>' +
-      '<div class="affil">' + esc(m.affiliation) + '</div></div>' +
-    '</div>';
-  }).join("");
+  const pis   = TEAM.filter(function(m) { return m.group === "pi"; });
+  const colls = TEAM.filter(function(m) { return m.group === "collaborator"; });
+
+  document.getElementById("team-grid").innerHTML        = pis.map(memberHTML).join("");
+  document.getElementById("collab-grid").innerHTML      = colls.map(memberHTML).join("");
 }
 
 
