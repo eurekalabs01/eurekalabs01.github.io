@@ -36,10 +36,10 @@ const TEAM = [
   { group: "pi", name: "Curby Alexander", role: "Principal Investigator",      affiliation: "Texas Christian University", image: "team/alexander.jpg", url: "https://coe.tcu.edu/about/faculty-staff/view/curby-alexander" },
   { group: "pi", name: "Yingshu Li",      role: "Principal Investigator",      affiliation: "Georgia State University",   image: "team/yingshu.jpg",   url: "https://cas.gsu.edu/profile/yingshu-li/" },
 
-  { group: "collaborator", name: "Ze-Li Dou",   role: "Collaborator", affiliation: "Texas Christian University", url: "https://cse.tcu.edu/mathematics/faculty-staff/view/zeli-dou" },
-  { group: "collaborator", name: "Honghui Xu",  role: "Collaborator", affiliation: "Kennesaw State University",  url: "https://facultyweb.kennesaw.edu/hxu10/" },
-  { group: "collaborator", name: "Yan Huang",   role: "Collaborator", affiliation: "Kennesaw State University",  url: "https://facultyweb.kennesaw.edu/yhuang24/index.php" },
-  { group: "collaborator", name: "Yang Yang",   role: "Collaborator", affiliation: "",                           url: "https://www.yangyangsite.com/" },
+  { group: "collaborator", name: "Ze-Li Dou",   role: "Collaborator", affiliation: "Texas Christian University", image: "team/dou.jpg",   url: "https://cse.tcu.edu/mathematics/faculty-staff/view/zeli-dou" },
+  { group: "collaborator", name: "Honghui Xu",  role: "Collaborator", affiliation: "Kennesaw State University",  image: "team/xu.jpg",    url: "https://facultyweb.kennesaw.edu/hxu10/" },
+  { group: "collaborator", name: "Yan Huang",   role: "Collaborator", affiliation: "Kennesaw State University",  image: "team/huang.jpg", url: "https://facultyweb.kennesaw.edu/yhuang24/index.php" },
+  { group: "collaborator", name: "Yang Yang",   role: "Collaborator", affiliation: "",                           image: "team/yang.jpg",  url: "https://www.yangyangsite.com/" },
 ];
 
 
