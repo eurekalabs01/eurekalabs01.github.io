@@ -209,8 +209,11 @@ function renderPagination(total) {
 function renderTeam() {
   const grid = document.getElementById("team-grid");
   grid.innerHTML = TEAM.map(function(m) {
+    const avatar = m.image
+      ? '<img class="team-avatar" src="' + esc(m.image) + '" alt="Photo of ' + esc(m.name) + '">'
+      : '<div class="team-avatar">' + esc(m.name.charAt(0)) + '</div>';
     return '<div class="team-member">' +
-      '<div class="team-avatar">' + esc(m.name.charAt(0)) + '</div>' +
+      avatar +
       '<h4>' + esc(m.name) + '</h4>' +
       '<div class="role">' + esc(m.role) + '</div>' +
       '<div class="affil">' + esc(m.affiliation) + '</div>' +

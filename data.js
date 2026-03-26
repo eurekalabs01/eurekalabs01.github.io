@@ -31,10 +31,10 @@ const LEVELS = {
 // --- TEAM -------------------------------------------------------------------
 
 const TEAM = [
-  { name: "Liran Ma",        role: "Principal Investigator", affiliation: "Miami University" },
-  { name: "Zhipeng Cai",     role: "Principal Investigator", affiliation: "Georgia State University" },
-  { name: "Curby Alexander", role: "Principal Investigator", affiliation: "Texas Christian University" },
-  { name: "Yingshu Li",      role: "Principal Investigator", affiliation: "Georgia State University" },
+  { name: "Liran Ma",        role: "Lead Principal Investigator", affiliation: "Miami University",           image: "team/ma.png" },
+  { name: "Zhipeng Cai",     role: "Lead Principal Investigator", affiliation: "Georgia State University",   image: "team/cai.jpg" },
+  { name: "Curby Alexander", role: "Principal Investigator",      affiliation: "Texas Christian University", image: "team/alexander.jpg" },
+  { name: "Yingshu Li",      role: "Principal Investigator",      affiliation: "Georgia State University",   image: "team/yingshu.jpg" },
 ];
 
 
