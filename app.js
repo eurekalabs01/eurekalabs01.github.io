@@ -14,10 +14,10 @@
 
 let activeCat   = "all";
 let activeLevel = "all";
-let activeSort  = "alpha";
+let activeSort  = "newest";
 let searchQuery = "";
 let currentPage = 1;
-let pageSize    = 10;
+let pageSize    = 5;
 
 
 // --- Search & Sort ----------------------------------------------------------
