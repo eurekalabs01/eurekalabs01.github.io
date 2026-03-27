@@ -11,10 +11,10 @@
 const CATEGORIES = {
   mobile:       { label: "Mobile",                 color: "#1d6b52", bg: "#e4f2ec" },
   network:      { label: "Network",                color: "#2a6f97", bg: "#e5f0f7" },
-  system:       { label: "System",                 color: "#c45a2d", bg: "#faeee8" },
-  ai:           { label: "AI",                     color: "#6b4f8a", bg: "#f0eaf6" },
+  system:       { label: "Systems",                color: "#c45a2d", bg: "#faeee8" },
+  ai:           { label: "Agentic AI",             color: "#6b4f8a", bg: "#f0eaf6" },
   genai:        { label: "Gen AI",                 color: "#a84860", bg: "#f8e8ec" },
-  deeplearning: { label: "Deep Learning Security", color: "#a67c30", bg: "#f5edda" },
+  deeplearning: { label: "Deep Learning",          color: "#a67c30", bg: "#f5edda" },
   quantum:      { label: "Quantum",                color: "#4a6670", bg: "#e8eef0" },
 };
 
