@@ -74,7 +74,7 @@ const LABS = [
     description: "Choosing a healthy cereal may seem straightforward, until nutrition labels begin to tell conflicting stories. In this lab, students explore how relying on a single measure such as sugar can lead to misleading conclusions about healthfulness. Using a real-world cereal dataset, they analyze multiple nutritional features, including calories, fat, fiber, protein, and potassium, to uncover deeper patterns in the data. Students then apply Principal Component Analysis (PCA) to reduce dimensionality, identify the most informative combinations of features, and visualize how cereals group in a lower-dimensional space. By comparing models built from raw variables, sugar alone, and PCA-derived components, students see how PCA can simplify analysis while preserving meaningful structure. This lab shows how PCA helps transform a confusing selection problem into a more informed, data-driven decision.",
     image: "labs/cereal-pca/cover.png",
     pdf: "labs/cereal-pca/PCA.pdf",
-    updated: "2026-02-03", estimatedTime: "2-3 hours",
+    updated: "2025-08-03", estimatedTime: "2-3 hours",
     resources: [
       { label: "Dataset (cereal.csv)",  url: "labs/cereal-pca/cereal.csv" },
       { label: "Notebook (PCA.ipynb)",  url: "labs/cereal-pca/PCA.ipynb" },
