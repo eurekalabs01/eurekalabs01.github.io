@@ -75,6 +75,10 @@ const LABS = [
     image: "labs/cereal-pca/cover.png",
     pdf: "labs/cereal-pca/PCA.pdf",
     updated: "2026-02-03", estimatedTime: "1 hour",
+    resources: [
+      { label: "Dataset (cereal.csv)",  url: "labs/cereal-pca/cereal.csv" },
+      { label: "Notebook (PCA.ipynb)",  url: "labs/cereal-pca/PCA.ipynb" },
+    ],
   },
 
   {
