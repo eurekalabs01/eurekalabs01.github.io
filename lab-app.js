@@ -98,6 +98,7 @@ function renderLabPage() {
     '</div>' +
     metaHTML +
     imageHTML +
+    (lab.teaser ? '<p class="lab-teaser">' + esc(lab.teaser) + '</p>' : '') +
     '<div class="lab-section">' +
       '<h2>Overview</h2>' +
       '<p>' + esc(lab.description) + '</p>' +
