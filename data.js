@@ -44,7 +44,7 @@ const TEAM = [
   { group: "collaborator", name: "Susan Staples", role: "Collaborator", affiliation: "Texas Christian University", image: "team/staples.jpg", url: "https://cse.tcu.edu/mathematics/faculty-staff/view/susan-staples" },
   { group: "collaborator", name: "Xinda Wang",  role: "Collaborator", affiliation: "University of Texas at Dallas", image: "team/wang.jpg",  url: "https://www.xindawang.org/" },
 
-  { group: "ra", name: "Kien X. Nguyen",  role: "Research Assistant", affiliation: "", image: "team/kien.jpg", url: "https://nyquixt.github.io/" },
+  { group: "former", name: "Kien X. Nguyen",  role: "Research Assistant", affiliation: "", image: "team/kien.jpg", url: "https://nyquixt.github.io/" },
   { group: "ra", name: "Qingwen Liu",     role: "Research Assistant", affiliation: "", image: null,            url: "https://www.linkedin.com/in/qingwenliu/" },
   { group: "ra", name: "Rongrong Qian",        role: "Research Assistant", affiliation: "", image: "team/rongrong.jpg", url: "https://www.linkedin.com/in/rongrong-ella-qian/" },
   { group: "ra", name: "Maria Kunigk-Bakalar", role: "Research Assistant", affiliation: "", image: null, url: null },
