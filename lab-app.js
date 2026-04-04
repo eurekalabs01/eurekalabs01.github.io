@@ -72,7 +72,7 @@ function renderLabPage() {
         '<h2>Lab manual</h2>' +
         '<a href="' + esc(lab.pdf) + '" target="_blank" rel="noopener" class="btn-primary">' +
           '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" style="width:14px;height:14px"><path d="M3 14h10M8 2v9M4 7l4 4 4-4"/></svg>' +
-          'Download PDF' +
+          'View / Download PDF' +
         '</a>' +
       '</div>'
     : "";
