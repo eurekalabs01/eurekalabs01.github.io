@@ -67,6 +67,21 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "svm-showdown",
+    title: "Draw the Line: An SVM Showdown",
+    categories: ["ai"], level: "fundamental",
+    authors: "Liran Ma and Zhipeng Cai",
+    teaser: "When the data gets messy, SVM steps in and draws the line.",
+    description: "In this lab, students explore how Support Vector Machines (SVMs) classify data by finding the decision boundary that best separates competing groups. Rather than drawing just any line, SVM searches for the one that maximizes the margin, making the classifier more robust and reliable. Through hands-on experimentation, students examine linear separation, identify support vectors, and see how kernel methods help SVM tackle data that cannot be separated in the original feature space. By visualizing boundaries, margins, and classification outcomes, students build an intuitive understanding of how SVM balances geometry and prediction. This lab shows that effective classification is not only about splitting data, but about drawing the smartest possible line.",
+    image: "labs/svm-showdown/cover.png",
+    pdf:   "labs/svm-showdown/SVM.pdf",
+    updated: "2025-07-03", estimatedTime: "3-4 hours",
+    resources: [
+      { label: "Notebook (svm.ipynb)", url: "labs/svm-showdown/svm.ipynb" },
+    ],
+  },
+
+  {
     id: "cereal-pca",
     title: "The Cereal Selection Puzzle: PCA Unmasks Healthy Cereals",
     categories: ["ai"], level: "fundamental",
