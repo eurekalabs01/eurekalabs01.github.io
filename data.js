@@ -74,7 +74,7 @@ const LABS = [
     authors: "Liran Ma, Zhipeng Cai",
     teaser: "When human age guesses wobble, regression keeps a straight face.",
     description: "Estimating a person's age from a face may sound simple, but human guesses are often inconsistent and unreliable. In this lab, students turn face age estimation into a data-driven prediction problem using regression. Working with the UTKFace dataset, they extract facial features from raw pixels, HOG descriptors, and deep CNN representations, then compare how OLS, Ridge, and Lasso perform on the task. Along the way, they see why high-dimensional features can make ordinary least squares unstable and how regularization improves robustness, generalization, and interpretability. By evaluating models with mean absolute error, students learn that effective age prediction depends not only on fitting a model, but also on choosing the right representation and controlling complexity.",
-    image: "labs/regression-face/cover.png",
+    image: "labs/regression-face/cover.png", imagePosition: "top",
     pdf:   "labs/regression-face/Regression.pdf",
     updated: "2025-08-15", estimatedTime: "3-5 hours",
     resources: [
@@ -106,7 +106,7 @@ const LABS = [
     authors: "Liran Ma, Zhipeng Cai, Rongrong Qian",
     teaser: "Picking cereal sounds easy, until PCA starts reading the label more carefully than you do.",
     description: "Choosing a healthy cereal may seem straightforward, until nutrition labels begin to tell conflicting stories. In this lab, students explore how relying on a single measure such as sugar can lead to misleading conclusions about healthfulness. Using a real-world cereal dataset, they analyze multiple nutritional features, including calories, fat, fiber, protein, and potassium, to uncover deeper patterns in the data. Students then apply Principal Component Analysis (PCA) to reduce dimensionality, identify the most informative combinations of features, and visualize how cereals group in a lower-dimensional space. By comparing models built from raw variables, sugar alone, and PCA-derived components, students see how PCA can simplify analysis while preserving meaningful structure. This lab shows how PCA helps transform a confusing selection problem into a more informed, data-driven decision.",
-    image: "labs/cereal-pca/cover.png",
+    image: "labs/cereal-pca/cover.png", imagePosition: "top",
     pdf: "labs/cereal-pca/PCA.pdf",
     updated: "2026-02-03", estimatedTime: "1 hour",
     resources: [

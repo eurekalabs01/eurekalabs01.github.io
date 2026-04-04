@@ -50,8 +50,9 @@ function renderLabPage() {
   const tagsHTML = labTagsHTML(lab);
 
   // Image
+  const imgStyle = lab.imagePosition ? ' style="object-position:' + esc(lab.imagePosition) + '"' : "";
   const imageHTML = lab.image
-    ? '<div class="lab-image"><img src="' + esc(lab.image) + '" alt="' + esc(lab.title) + '"></div>'
+    ? '<div class="lab-image"><img src="' + esc(lab.image) + '" alt="' + esc(lab.title) + '"' + imgStyle + '></div>'
     : "";
 
   // Metadata bar
