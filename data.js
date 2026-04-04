@@ -69,7 +69,7 @@ const LABS = [
   {
     id: "regression-face",
     title: "Face the Truth: Regression Cracks the Face Puzzle",
-    categories: ["ai"], level: "fundamental",
+    categories: ["ai", "deeplearning"], level: "advanced",
     authors: "Liran Ma, Zhipeng Cai",
     teaser: "When human age guesses wobble, regression keeps a straight face.",
     description: "Estimating a person's age from a face may sound simple, but human guesses are often inconsistent and unreliable. In this lab, students turn face age estimation into a data-driven prediction problem using regression. Working with the UTKFace dataset, they extract facial features from raw pixels, HOG descriptors, and deep CNN representations, then compare how OLS, Ridge, and Lasso perform on the task. Along the way, they see why high-dimensional features can make ordinary least squares unstable and how regularization improves robustness, generalization, and interpretability. By evaluating models with mean absolute error, students learn that effective age prediction depends not only on fitting a model, but also on choosing the right representation and controlling complexity.",
