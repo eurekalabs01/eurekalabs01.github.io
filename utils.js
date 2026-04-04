@@ -21,8 +21,12 @@ function labTagsHTML(lab) {
     const c = CATEGORIES[catId] || { label: catId, color: "#666", bg: "#eee" };
     return tagHTML(c.label, c.color, c.bg);
   }).join("");
-  const lv = LEVELS[lab.level] || { label: lab.level, color: "#666", bg: "#eee" };
-  return catTags + tagHTML(lv.label, lv.color, lv.bg);
+  const levels = Array.isArray(lab.level) ? lab.level : [lab.level];
+  const levelTags = levels.map(function(lvId) {
+    const lv = LEVELS[lvId] || { label: lvId, color: "#666", bg: "#eee" };
+    return tagHTML(lv.label, lv.color, lv.bg);
+  }).join("");
+  return catTags + levelTags;
 }
 
 // Auto-update copyright year in footer (both pages share this footer element).

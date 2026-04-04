@@ -94,7 +94,8 @@ function renderLabs() {
   // 1. Filter by category and level
   let results = LABS.filter(function(lab) {
     const catOk   = activeCat   === "all" || lab.categories.indexOf(activeCat) !== -1;
-    const levelOk = activeLevel === "all" || lab.level === activeLevel;
+    const levels  = Array.isArray(lab.level) ? lab.level : [lab.level];
+    const levelOk = activeLevel === "all" || levels.indexOf(activeLevel) !== -1;
     return catOk && levelOk;
   });
 
