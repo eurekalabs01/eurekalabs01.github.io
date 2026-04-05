@@ -68,6 +68,21 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "data-cleaning",
+    title: "Mind the Gap: Four Ways to Clean Missing Values",
+    categories: ["ai"], level: "fundamental",
+    authors: "Liran Ma, Zhipeng Cai, Jing Jing",
+    teaser: "Missing values do not just leave gaps. They change the story.",
+    description: "In this lab, students explore how different data cleaning choices reshape a dataset with missing values. Using a monthly temperature series with missing months and even long historical gaps, they compare four approaches: dropping missing values, monthly mean or median imputation, moving-average smoothing, and season-aware Kalman smoothing. As they examine continuity, seasonal structure, lag, and the treatment of extremes, students learn that cleaning data is not just about filling blanks. It is about preserving the meaning and structure of the original series. Through Alex's museum exhibit challenge, the lab turns missing data into a practical decision problem and shows how different methods can either distort or restore the story hidden in the data.",
+    image: "labs/data-cleaning/cover.png",
+    pdf:   "labs/data-cleaning/Data_Cleaning.pdf",
+    updated: "2025-05-21", estimatedTime: "2-4 hours",
+    resources: [
+      { label: "Notebook (Data_Cleaning.ipynb)", url: "labs/data-cleaning/Data_Cleaning.ipynb" },
+    ],
+  },
+
+  {
     id: "emotion-cnn",
     title: "Emotion Decoder: How CNN Reads Faces and Feelings",
     categories: ["ai", "deeplearning"], level: ["fundamental", "advanced", "challenging"],
