@@ -68,6 +68,21 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "emotion-cnn",
+    title: "Emotion Decoder: How CNN Reads Faces and Feelings",
+    categories: ["ai", "deeplearning"], level: ["fundamental", "advanced", "challenging"],
+    authors: "Liran Ma, Zhipeng Cai",
+    teaser: "A smile looks simple, until a CNN tries to explain it.",
+    description: "In this lab, students explore how Convolutional Neural Networks (CNNs) learn to recognize emotion from images. Starting with a simple human question, \"How are you feeling?\", they investigate how machines process facial cues through convolution, pooling, activation functions, dropout, and fully connected layers. Using a beginner-friendly experimental setup, students tune model architecture, compare optimizers such as SGD and Adam, track accuracy and loss, and reflect on overfitting, early stopping, and model uncertainty. Along the way, they discover that CNNs can become powerful pattern readers, but emotion recognition is more than a technical problem because context, privacy, fairness, and human meaning still matter.",
+    image: "labs/emotion-cnn/cover.png",
+    pdf:   "labs/emotion-cnn/CNN.pdf",
+    updated: "2025-09-20", estimatedTime: "2-8 hours",
+    resources: [
+      { label: "Notebook (CNN.ipynb)", url: "labs/emotion-cnn/CNN.ipynb" },
+    ],
+  },
+
+  {
     id: "feature-scaling",
     title: "BuddyFinder Gets Loud: When Feature Scaling Saves the Distance",
     categories: ["ai"], level: ["fundamental", "advanced"],
