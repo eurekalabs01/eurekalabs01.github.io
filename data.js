@@ -68,6 +68,18 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "feature-scaling",
+    title: "BuddyFinder Gets Loud: When Feature Scaling Saves the Distance",
+    categories: ["ai"], level: ["fundamental", "advanced"],
+    authors: "Liran Ma, Zhipeng Cai",
+    teaser: "When one feature shouts through a megaphone, scaling hands everyone else a microphone.",
+    description: "In this lab, students discover why distance-based methods can fail when features live on very different numeric scales. Through the story of BuddyFinder, an interstellar matching assistant, they see how Euclidean distance can be dominated by loud features such as air pressure, while quieter but more meaningful features such as temperature get ignored. Using a simulated city dataset, students apply KNN classification before and after scaling, then compare three common methods: Z-score standardization, Min-Max normalization, and mean normalization. By examining accuracy, outliers, and feature behavior, they learn that scaling is not just a preprocessing step but a practical tool for making machine learning models behave more like human intent.",
+    image: "labs/feature-scaling/cover.png",
+    pdf:   "labs/feature-scaling/Scaling.pdf",
+    updated: "2026-03-18", estimatedTime: "2-4 hours",
+  },
+
+  {
     id: "regression-face",
     title: "Face the Truth: Regression Cracks the Face Puzzle",
     categories: ["ai", "deeplearning"], level: ["fundamental", "advanced"],
