@@ -79,6 +79,12 @@ function renderLabPage() {
         '<h2>Resources</h2>' +
         '<ul class="resources-list">' +
           lab.resources.map(function(res) {
+            if (res.url && res.url.match(/\.mp4$/i)) {
+              return '<li><span class="resource-label">' + esc(res.label) + '</span>' +
+                '<video class="resource-video" controls preload="metadata">' +
+                  '<source src="' + esc(res.url) + '" type="video/mp4">' +
+                '</video></li>';
+            }
             return '<li><a href="' + esc(res.url) + '" target="_blank" rel="noopener">' + esc(res.label) + ' \u2197</a></li>';
           }).join("") +
         '</ul>' +
