@@ -1,11 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Background -->
-  <rect width="32" height="32" rx="7" fill="#1d6b52"/>
-  <!-- Bulb -->
-  <circle cx="16" cy="12" r="8.5" fill="white"/>
-  <!-- Neck (trapezoid connecting bulb to base) -->
-  <polygon points="11.5,19 20.5,19 19,25 13,25" fill="white"/>
-  <!-- Screw base lines -->
-  <rect x="12" y="26.5" width="8" height="1.8" rx=".9" fill="white"/>
-  <rect x="13.5" y="29" width="5" height="1.8" rx=".9" fill="white"/>
+  <rect width="32" height="32" rx="8" fill="#1d6b52"/>
+  <rect x="4" y="5"    width="5"  height="22" rx="2.5" fill="white"/>
+  <rect x="4" y="5"    width="20" height="5"  rx="2.5" fill="white"/>
+  <rect x="4" y="13.5" width="14" height="5"  rx="2.5" fill="white"/>
+  <rect x="4" y="22"   width="20" height="5"  rx="2.5" fill="white"/>
 </svg>
