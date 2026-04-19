@@ -68,6 +68,21 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "data-poisoning",
+    title: "Poison at the Source: Data Poisoning and Defenses in Deep Learning Models",
+    categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
+    authors: "Liran Ma, Zhipeng Cai",
+    teaser: "A model can look perfectly accurate and still be secretly trained to fail.",
+    description: "In this lab, students explore how a deep learning model can be compromised before it is ever deployed. Using a backdoor attack on MNIST, they see how a small trigger patch and a poisoned subset of training labels can teach the model a hidden malicious rule while leaving clean accuracy almost unchanged. They measure both clean accuracy and attack success rate to understand why normal evaluation can miss the problem entirely. Students then examine two defense strategies, activation clustering and spectral signatures, and learn how poisoned samples may leave detectable traces in the model's internal representation space. By comparing detection, retraining, and missed poisons, the lab shows that data poisoning attacks can be subtle, powerful, and difficult to fully remove once a model has already learned the backdoor.",
+    image: "labs/data-poisoning/cover.png",
+    pdf:   "labs/data-poisoning/Data_Poisoning.pdf",
+    updated: "2026-03-05", estimatedTime: "2-8 hours",
+    resources: [
+      { label: "Notebook (data_poisoning_lab.ipynb)", url: "labs/data-poisoning/data_poisoning_lab.ipynb" },
+    ],
+  },
+
+  {
     id: "adversarial-attacks",
     title: "Tiny Changes, Big Trouble: Adversarial Attacks and Defenses in Deep Learning Models",
     categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
