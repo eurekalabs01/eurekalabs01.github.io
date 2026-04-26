@@ -62,7 +62,7 @@ function renderLabPage() {
   if (lab.estimatedTime) metaItems.push('<div class="lab-meta-item"><span class="meta-label">Estimated time</span><span>' + esc(lab.estimatedTime) + '</span></div>');
   const metaHTML = metaItems.length > 0 ? '<div class="lab-meta">' + metaItems.join("") + '</div>' : "";
 
-  // PDF download button
+  // PDF download button + optional note
   const pdfHTML = lab.pdf
     ? '<div class="lab-section">' +
         '<h2>Lab manual</h2>' +
@@ -70,6 +70,7 @@ function renderLabPage() {
           '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 14h10M8 2v9M4 7l4 4 4-4"/></svg>' +
           'View / Download PDF' +
         '</a>' +
+        (lab.note ? '<p class="lab-note">' + esc(lab.note) + '</p>' : '') +
       '</div>'
     : "";
 
