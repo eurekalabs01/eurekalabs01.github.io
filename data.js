@@ -77,6 +77,7 @@ const LABS = [
     image: "labs/backdoor-attacks/cover.png",
     pdf:   "labs/backdoor-attacks/Backdoor.pdf",
     updated: "2026-04-05", estimatedTime: "3-12 hours",
+    note: "This lab is designed to be flexible. It includes both attack and defense components, with a mix of fundamental and more advanced material. Depending on their background, goals, and available time, learners may complete the full lab in sequence, focus on selected sections only, or skip some advanced parts and return to them later. Instructors may also adapt the lab to different levels by emphasizing either the conceptual foundations or the more technical implementation details. The lab is intended to support self-paced exploration as well as guided classroom use.",
     resources: [
       { label: "Notebook (Backdoor.ipynb)", url: "labs/backdoor-attacks/Backdoor.ipynb" },
       { label: "Video (Backdoor.mp4)",      url: "labs/backdoor-attacks/Backdoor.mp4" },
