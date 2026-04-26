@@ -94,6 +94,7 @@ const LABS = [
     image: "labs/data-poisoning/cover.png",
     pdf:   "labs/data-poisoning/Data_Poisoning.pdf",
     updated: "2026-03-05", estimatedTime: "2-8 hours",
+    note: "This lab is designed to be flexible. It includes both attack and defense components, with a mix of fundamental and more advanced material. Depending on their background, goals, and available time, learners may complete the full lab in sequence, focus on selected sections only, or skip some advanced parts and return to them later. Instructors may also adapt the lab to different levels by emphasizing either the conceptual foundations or the more technical implementation details. The lab is intended to support self-paced exploration as well as guided classroom use.",
     resources: [
       { label: "Notebook (data_poisoning_lab.ipynb)", url: "labs/data-poisoning/data_poisoning_lab.ipynb" },
     ],
@@ -109,6 +110,7 @@ const LABS = [
     image: "labs/adversarial-attacks/cover.png",
     pdf:   "labs/adversarial-attacks/Adversarial.pdf",
     updated: "2026-02-07", estimatedTime: "2-8 hours",
+    note: "This lab is designed to be flexible. It includes both attack and defense components, with a mix of fundamental and more advanced material. Depending on their background, goals, and available time, learners may complete the full lab in sequence, focus on selected sections only, or skip some advanced parts and return to them later. Instructors may also adapt the lab to different levels by emphasizing either the conceptual foundations or the more technical implementation details. The lab is intended to support self-paced exploration as well as guided classroom use.",
     resources: [
       { label: "Notebook (adversarial.ipynb)", url: "labs/adversarial-attacks/adversarial.ipynb" },
       { label: "Video (Adversarial.mp4)",      url: "labs/adversarial-attacks/Adversarial.mp4" },
