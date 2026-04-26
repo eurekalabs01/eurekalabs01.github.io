@@ -68,6 +68,22 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "backdoor-attacks",
+    title: "Hidden Triggers, Broken Trust: Backdoor Attacks and Defenses in Deep Neural Networks",
+    categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
+    authors: "Zhipeng Cai, Liran Ma",
+    teaser: "An AI model can look perfectly accurate until the hidden trigger quietly rewrites the result.",
+    description: "In this lab, students explore how backdoor attacks can secretly embed hidden failure modes inside deep neural networks. Using MNIST and a small CNN, they build three trigger types — patch, blended, and invisible — and compare their tradeoffs in stealthiness, detectability, clean accuracy, and attack success rate. They then study two model-side defenses, Neural Cleanse and Fine-Pruning, designed for settings where the original poisoned training data is unavailable. By reverse-engineering candidate triggers and pruning trigger-responsive channels, students learn how defenders can detect and weaken hidden backdoors using only a trained model and limited clean data. The lab shows that backdoor attacks do not need to be large or obvious to be highly effective, and that defending against them requires careful reasoning about both model behavior and hidden internal structure.",
+    image: "labs/backdoor-attacks/cover.png",
+    pdf:   "labs/backdoor-attacks/Backdoor.pdf",
+    updated: "2026-04-05", estimatedTime: "3-12 hours",
+    resources: [
+      { label: "Notebook (Backdoor.ipynb)", url: "labs/backdoor-attacks/Backdoor.ipynb" },
+      { label: "Video (Backdoor.mp4)",      url: "labs/backdoor-attacks/Backdoor.mp4" },
+    ],
+  },
+
+  {
     id: "data-poisoning",
     title: "Poison at the Source: Data Poisoning and Defenses in Deep Learning Models",
     categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
