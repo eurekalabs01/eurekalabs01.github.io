@@ -85,6 +85,22 @@ const LABS = [
   },
 
   {
+    id: "membership-inference",
+    title: "When Confidence Betrays Privacy: Membership Inference Attacks and Defenses",
+    categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
+    authors: "Liran Ma, Zhipeng Cai",
+    teaser: "When the model grows too sure of itself, privacy starts to slip.",
+    description: "In this lab, students explore how a trained deep learning model can leak private information about whether a specific record was used during training. Using a synthetic patient-risk dataset, they first observe how overfitting creates a confidence gap between members and non-members. They then build a shadow-model membership inference attack and measure how much better it performs than random guessing. To reduce this privacy signal, students compare two defenses: regularization with early stopping, which empirically narrows the confidence gap, and DP-SGD, which adds a formal privacy guarantee through differentially private training. The lab shows that privacy leakage can arise even when raw data, model weights, and records remain hidden, and that defending against it requires balancing accuracy, generalization, and privacy protection.",
+    image: "labs/membership-inference/cover.png",
+    pdf:   "labs/membership-inference/Membership-Inference.pdf",
+    updated: "2026-05-02", estimatedTime: "4-10 hours",
+    note: "This lab is designed to support different learning paths. It includes both attack and defense components, with a mix of fundamental ideas and more advanced material. Learners may complete the full lab in sequence, focus on selected sections, or skip some advanced parts and return to them later depending on their background, goals, and available time. The lab is intended to support both guided instruction and self-paced exploration.",
+    resources: [
+      { label: "Notebook (Membership-Inference.ipynb)", url: "labs/membership-inference/Membership-Inference.ipynb" },
+    ],
+  },
+
+  {
     id: "data-poisoning",
     title: "Poison at the Source: Data Poisoning and Defenses in Deep Learning Models",
     categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
