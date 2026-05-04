@@ -39,11 +39,18 @@ function renderLabPage() {
     return;
   }
 
-  // Update page title and meta description
+  // Update page title, meta description, and Open Graph tags
   document.title = lab.title + " \u2014 Eureka Labs";
+  const descContent = lab.title + " \u2014 " + truncateAtWord(lab.description, 150);
   const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc && lab.description) {
-    metaDesc.setAttribute("content", lab.title + " \u2014 " + truncateAtWord(lab.description, 150));
+  if (metaDesc) metaDesc.setAttribute("content", descContent);
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute("content", lab.title + " \u2014 Eureka Labs");
+  const ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute("content", descContent);
+  if (lab.image) {
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage) ogImage.setAttribute("content", "https://eurekalabs.net/" + lab.image);
   }
 
   // Tags
