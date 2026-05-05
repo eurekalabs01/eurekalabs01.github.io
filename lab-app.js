@@ -99,6 +99,14 @@ function renderLabPage() {
       '</div>'
     : "";
 
+  // Fire GA4 custom event for per-lab visit tracking
+  if (typeof gtag === "function") {
+    gtag("event", "lab_view", {
+      lab_id:    lab.id,
+      lab_title: lab.title,
+    });
+  }
+
   // Assemble
   document.getElementById("lab-content").innerHTML =
     '<a href="index.html#labs" class="back-link">\u2190 All labs</a>' +
