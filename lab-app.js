@@ -29,6 +29,12 @@ function renderLabPage() {
 
   // 404 state
   if (!lab) {
+    // Tell search engines not to index the "not found" state
+    const noindex = document.createElement("meta");
+    noindex.setAttribute("name", "robots");
+    noindex.setAttribute("content", "noindex");
+    document.head.appendChild(noindex);
+
     document.getElementById("lab-content").innerHTML =
       '<div class="lab-not-found">' +
         '<h1>Lab not found</h1>' +
