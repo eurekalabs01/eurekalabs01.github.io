@@ -13,7 +13,7 @@ const CATEGORIES = {
   network:      { label: "Network",                color: "#2a6f97", bg: "#e5f0f7" },
   system:       { label: "Systems",                color: "#c45a2d", bg: "#faeee8" },
   ai:           { label: "AI/ML",                  color: "#6b4f8a", bg: "#f0eaf6" },
-  agent:        { label: "Agentic AI",             color: "#6b4f8a", bg: "#f0eaf6" },
+  agent:        { label: "Agentic AI",             color: "#1a7a6e", bg: "#e0f5f2" },
   genai:        { label: "Gen AI",                 color: "#a84860", bg: "#f8e8ec" },
   deeplearning: { label: "Deep Learning",          color: "#a67c30", bg: "#f5edda" },
   quantum:      { label: "Quantum",                color: "#4a6670", bg: "#e8eef0" },
@@ -24,8 +24,8 @@ const CATEGORIES = {
 
 const LEVELS = {
   fundamental: { label: "Fundamental", color: "#5c5a52", bg: "#e6e2da" },
-  advanced:    { label: "Advanced",    color: "#2a6f97", bg: "#e5f0f7" },
-  challenging: { label: "Challenging", color: "#c45a2d", bg: "#faeee8" },
+  advanced:    { label: "Advanced",    color: "#1a6b6b", bg: "#e0f0f0" },
+  challenging: { label: "Challenging", color: "#8b3030", bg: "#f5e5e5" },
 };
 
 
