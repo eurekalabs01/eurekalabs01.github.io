@@ -57,10 +57,10 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 3r
 
 /* --- Layout --- */
 section { padding: 6rem 3rem; }
-.container { max-width: 1040px; margin: 0 auto; }
+.container { max-width: 1200px; margin: 0 auto; }
 .section-eyebrow { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--color-forest); margin-bottom: 0.5rem; font-weight: 600; }
 .section-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.75rem; line-height: 1.12; }
-.section-desc { color: var(--color-text-mid); max-width: 540px; margin-bottom: 3rem; font-size: 0.92rem; }
+.section-desc { color: var(--color-text-mid); max-width: 540px; margin-bottom: 3rem; font-size: 1rem; }
 
 /* --- Shared components --- */
 .tag { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.18rem 0.5rem; border-radius: var(--radius-pill); white-space: nowrap; background: var(--tag-bg); color: var(--tag-color); }
@@ -72,8 +72,8 @@ section { padding: 6rem 3rem; }
 .badge { display: inline-block; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.18rem 0.55rem; border-radius: var(--radius-pill); margin-bottom: 0.5rem; }
 
 /* --- Hero (index.html) --- */
-.hero { padding: 8rem 6rem 6rem; border-bottom: var(--border-subtle); }
-.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; max-width: 1280px; margin: 0 auto; }
+.hero { padding: 8rem 4rem 6rem; border-bottom: var(--border-subtle); }
+.hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; max-width: 1440px; margin: 0 auto; }
 .hero-left { display: flex; flex-direction: column; padding-top: 3rem; }
 .hero-right { padding-top: 3rem; }
 .hero-eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--color-forest); margin-bottom: 1.5rem; font-weight: 600; }
@@ -86,7 +86,7 @@ section { padding: 6rem 3rem; }
 
 /* --- About columns (inside hero-right) --- */
 .about-columns { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2rem; }
-.about-prose { color: var(--color-text-mid); font-size: 0.88rem; }
+.about-prose { color: var(--color-text-mid); font-size: 0.95rem; }
 .about-prose p { margin-bottom: 1.1rem; }
 
 /* --- Lab catalog (index.html) --- */
@@ -107,7 +107,7 @@ section { padding: 6rem 3rem; }
 .lab-row { display: grid; grid-template-columns: 56px 1fr auto auto; gap: 1.5rem; align-items: center; padding: 1.25rem 1.75rem; background: var(--color-page); transition: background 0.2s; color: inherit; text-decoration: none; }
 .lab-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; flex-shrink: 0; background: var(--color-surface-alt); }
 .lab-row:hover { background: rgba(255,255,255,0.7); color: inherit; }
-.lab-row h3 { font-family: var(--font-serif); font-size: 1rem; font-weight: 400; line-height: 1.35; }
+.lab-row h3 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; line-height: 1.35; }
 .lab-row .arrow { font-size: 1.1rem; color: var(--color-text-faint); transition: transform 0.2s, color 0.2s; flex-shrink: 0; }
 .lab-row:hover .arrow { transform: translateX(4px); color: var(--color-forest); }
 .no-results { padding: 3rem; text-align: center; background: var(--color-page); border-radius: var(--radius); color: var(--color-text-muted); font-size: 0.9rem; display: none; }
@@ -148,11 +148,11 @@ div.team-avatar { display: flex; align-items: center; justify-content: center; f
 .meta-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-text-muted); font-weight: 600; }
 .lab-image { margin-bottom: 2.5rem; border-radius: var(--radius); overflow: hidden; border: var(--border-subtle); }
 .lab-image img { width: 100%; max-height: 360px; object-fit: cover; display: block; }
-.lab-teaser { font-family: var(--font-serif); font-size: 1.05rem; font-style: italic; color: var(--color-text-mid); margin-bottom: 2rem; line-height: 1.6; }
-.lab-note { margin-top: 1rem; font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.65; background: var(--color-surface-alt); border-left: 3px solid var(--color-forest); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.75rem 1rem; }
+.lab-teaser { font-family: var(--font-serif); font-size: 1.1rem; font-style: italic; color: var(--color-text-mid); margin-bottom: 2rem; line-height: 1.6; }
+.lab-note { margin-top: 1rem; font-size: 0.93rem; color: var(--color-text-muted); line-height: 1.65; background: var(--color-surface-alt); border-left: 3px solid var(--color-forest); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.75rem 1rem; }
 .lab-section { margin-bottom: 2.5rem; }
 .lab-section h2 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; color: var(--color-text); }
-.lab-section p { color: var(--color-text-mid); font-size: 0.95rem; line-height: 1.85; }
+.lab-section p { color: var(--color-text-mid); font-size: 1rem; line-height: 1.85; }
 .resources-list { list-style: none; padding: 0; }
 .resources-list li { margin-bottom: 0.5rem; }
 .resources-list li a { font-size: 0.92rem; font-weight: 500; color: var(--color-forest); }
