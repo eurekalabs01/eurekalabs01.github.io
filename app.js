@@ -20,6 +20,15 @@ let currentPage = 1;
 let pageSize    = 5;
 
 
+// --- Helpers ----------------------------------------------------------------
+
+// Set aria-pressed="true" on btn and false on all siblings in the same container
+function setPressed(container, btn) {
+  container.querySelectorAll(".filter-btn").forEach(function(b) { b.setAttribute("aria-pressed", "false"); });
+  btn.setAttribute("aria-pressed", "true");
+}
+
+
 // --- Search & Sort ----------------------------------------------------------
 
 function buildSearchSort() {
@@ -37,8 +46,7 @@ function buildSearchSort() {
     if (!btn) return;
     activeSort = btn.dataset.sort;
     currentPage = 1;
-    sortEl.querySelectorAll(".filter-btn").forEach(function(b) { b.setAttribute("aria-pressed", "false"); });
-    btn.setAttribute("aria-pressed", "true");
+    setPressed(sortEl, btn);
     renderLabs();
   });
 }
@@ -50,8 +58,13 @@ function buildFilters() {
   const catEl   = document.getElementById("cat-filters");
   const levelEl = document.getElementById("level-filters");
 
+  // Only show filter buttons for categories that have at least one lab
+  const usedCats = new Set();
+  LABS.forEach(function(lab) { lab.categories.forEach(function(c) { usedCats.add(c); }); });
+
   let catHTML = '<button class="filter-btn" aria-pressed="true" data-cat="all">All</button>';
   Object.keys(CATEGORIES).forEach(function(id) {
+    if (!usedCats.has(id)) return;
     catHTML += '<button class="filter-btn" aria-pressed="false" data-cat="' + id + '">' + esc(CATEGORIES[id].label) + '</button>';
   });
   catEl.innerHTML = catHTML;
@@ -67,8 +80,7 @@ function buildFilters() {
     if (!btn) return;
     activeCat = btn.dataset.cat;
     currentPage = 1;
-    catEl.querySelectorAll(".filter-btn").forEach(function(b) { b.setAttribute("aria-pressed", "false"); });
-    btn.setAttribute("aria-pressed", "true");
+    setPressed(catEl, btn);
     renderLabs();
   });
 
@@ -77,8 +89,7 @@ function buildFilters() {
     if (!btn) return;
     activeLevel = btn.dataset.level;
     currentPage = 1;
-    levelEl.querySelectorAll(".filter-btn").forEach(function(b) { b.setAttribute("aria-pressed", "false"); });
-    btn.setAttribute("aria-pressed", "true");
+    setPressed(levelEl, btn);
     renderLabs();
   });
 }
@@ -103,7 +114,7 @@ function renderLabs() {
   if (searchQuery) {
     const words = searchQuery.split(/\s+/);
     results = results.filter(function(lab) {
-      const haystack = [lab.title, lab.description, lab.authors]
+      const haystack = [lab.title, lab.description, lab.authors, lab.teaser]
         .filter(Boolean).join(" ").toLowerCase();
       return words.every(function(word) { return haystack.includes(word); });
     });
@@ -122,13 +133,13 @@ function renderLabs() {
 
   if (total === 0) {
     listEl.classList.add("hidden");
-    emptyEl.style.display = "block";
+    emptyEl.classList.remove("hidden");
     document.getElementById("pagination").innerHTML = "";
     return;
   }
 
   listEl.classList.remove("hidden");
-  emptyEl.style.display = "none";
+  emptyEl.classList.add("hidden");
 
   // 4. Paginate
   const start = (currentPage - 1) * pageSize;
@@ -168,7 +179,7 @@ function renderPagination(total) {
     }).join("") +
   '</div>';
 
-  // Build page buttons (always show all — max 7 pages at size 5)
+  // Build page buttons (always show all)
   let pagesHTML = '<div class="page-controls">';
   pagesHTML += '<button class="page-btn" data-page="' + (currentPage - 1) + '"' + (currentPage === 1 ? ' disabled' : '') + '>\u2190 Prev</button>';
   for (let i = 1; i <= totalPages; i++) {

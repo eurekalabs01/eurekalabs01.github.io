@@ -45,9 +45,11 @@ function renderLabPage() {
     return;
   }
 
-  // Set canonical URL to this specific lab
+  // Set canonical URL and og:url to this specific lab
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.setAttribute("href", "https://eurekalabs.net/lab.html?id=" + encodeURIComponent(lab.id));
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute("content", "https://eurekalabs.net/lab.html?id=" + encodeURIComponent(lab.id));
 
   // Update page title, meta description, and Open Graph tags
   document.title = lab.title + " \u2014 Eureka Labs";

@@ -69,7 +69,6 @@ section { padding: 6rem 3rem; }
 .btn-primary:hover { background: var(--color-forest-dark); color: #fff; }
 .btn-primary svg { width: 14px; height: 14px; transition: transform 0.25s; }
 .btn-primary:hover svg { transform: translateX(3px); }
-.badge { display: inline-block; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; padding: 0.18rem 0.55rem; border-radius: var(--radius-pill); margin-bottom: 0.5rem; }
 
 /* --- Hero (index.html) --- */
 .hero { padding: 8rem 4rem 6rem; border-bottom: var(--border-subtle); }
@@ -110,7 +109,7 @@ section { padding: 6rem 3rem; }
 .lab-row h3 { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; line-height: 1.35; }
 .lab-row .arrow { font-size: 1.1rem; color: var(--color-text-faint); transition: transform 0.2s, color 0.2s; flex-shrink: 0; }
 .lab-row:hover .arrow { transform: translateX(4px); color: var(--color-forest); }
-.no-results { padding: 3rem; text-align: center; background: var(--color-page); border-radius: var(--radius); color: var(--color-text-muted); font-size: 0.9rem; display: none; }
+.no-results { padding: 3rem; text-align: center; background: var(--color-page); border-radius: var(--radius); color: var(--color-text-muted); font-size: 0.9rem; }
 
 /* Pagination */
 .pagination-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(0,0,0,0.07); }
