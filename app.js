@@ -17,7 +17,7 @@ let activeLevel = "all";
 let activeSort  = "newest";
 let searchQuery = "";
 let currentPage = 1;
-let pageSize    = 5;
+let pageSize    = 8;
 
 
 // --- Helpers ----------------------------------------------------------------
@@ -173,7 +173,7 @@ function renderPagination(total) {
   // Build per-page selector
   const sizeHTML = '<div class="page-size">' +
     '<span>Per page</span>' +
-    [5, 10].map(function(n) {
+    [5, 8, 10].map(function(n) {
       const pressed = pageSize === n ? "true" : "false";
       return '<button class="filter-btn" aria-pressed="' + pressed + '" data-size="' + n + '">' + n + '</button>';
     }).join("") +
