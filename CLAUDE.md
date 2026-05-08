@@ -69,7 +69,7 @@ Both pages share the same `utils.js` — any tag-rendering logic belongs there, 
   id: "my-lab-id",               // matches labs/{id}/ folder name
   title: "Lab Title",
   categories: ["ai"],            // one or more keys from CATEGORIES
-  level: "fundamental",          // string, or array ["fundamental", "advanced"]
+  level: ["fundamental"],        // always use array form; multiple values allowed
   authors: "First Last, First Last",
   teaser: "One-line hook.",
   description: "Full abstract paragraph.",
@@ -103,7 +103,7 @@ If no photo is available, use `image: null`. If no URL, use `url: null`.
 
 **Levels** (keys in `LEVELS`): `fundamental`, `advanced`, `challenging`
 
-A lab can have multiple levels: `level: ["fundamental", "advanced"]` — both tags render and both filter buttons match it.
+Always use the array form even for a single level: `level: ["fundamental"]`. Multiple values are supported: `level: ["fundamental", "advanced"]` — both tags render and both filter buttons match it.
 
 ## XSS Safety
 
