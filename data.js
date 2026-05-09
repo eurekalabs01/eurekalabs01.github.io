@@ -46,12 +46,12 @@ const TEAM = [
   { group: "collaborator", name: "Wei Cheng",   role: "Collaborator", affiliation: "University of Washington Tacoma", image: "team/weicheng.jpg", url: "https://faculty.washington.edu/uwcheng/" },
 
   { group: "former", name: "Kien X. Nguyen",  role: "Research Assistant", affiliation: "", image: "team/kien.jpg", url: "https://nyquixt.github.io/" },
-  { group: "ra", name: "Qingwen Liu",     role: "Research Assistant", affiliation: "", image: "team/qingwen.jpg", url: "https://www.linkedin.com/in/qingwenliu/" },
-  { group: "ra", name: "Rongrong Qian",        role: "Research Assistant", affiliation: "", image: "team/rongrong.jpg", url: "https://www.linkedin.com/in/rongrong-ella-qian/" },
-  { group: "ra", name: "Maria Kunigk-Bakalar", role: "Research Assistant", affiliation: "", image: null, url: null },
-  { group: "ra", name: "Dean DiCarlo",         role: "Research Assistant", affiliation: "", image: "team/dean.jpg", url: "https://www.linkedin.com/in/dean-dicarlo-ii/" },
-  { group: "ra", name: "Peiyang Chen",         role: "Research Assistant", affiliation: "", image: "team/peiyang.jpg", url: null },
-  { group: "ra", name: "Jing Jing",            role: "Research Assistant", affiliation: "", image: "team/jingjing.jpg", url: "https://www.linkedin.com/in/jingjing666888" },
+  { group: "ra", name: "Qingwen Liu",          role: "Research Assistant", affiliation: "Miami University", image: "team/qingwen.jpg",    url: "https://www.linkedin.com/in/qingwenliu/" },
+  { group: "ra", name: "Rongrong Qian",        role: "Research Assistant", affiliation: "Miami University", image: "team/rongrong.jpg",   url: "https://www.linkedin.com/in/rongrong-ella-qian/" },
+  { group: "ra", name: "Maria Kunigk-Bakalar", role: "Research Assistant", affiliation: "Miami University", image: null,                  url: null },
+  { group: "ra", name: "Dean DiCarlo",         role: "Research Assistant", affiliation: "Miami University", image: "team/dean.jpg",       url: "https://www.linkedin.com/in/dean-dicarlo-ii/" },
+  { group: "ra", name: "Peiyang Chen",         role: "Research Assistant", affiliation: "Georgia State University", image: "team/peiyang.jpg", url: null },
+  { group: "ra", name: "Jing Jing",            role: "Research Assistant", affiliation: "Miami University", image: "team/jingjing.jpg",   url: "https://www.linkedin.com/in/jingjing666888" },
 ];
 
 
