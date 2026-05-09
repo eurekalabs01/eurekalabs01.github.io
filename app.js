@@ -224,6 +224,7 @@ function memberHTML(m) {
     '<div><h4>' + nameHTML + '</h4>' +
     '<div class="role">' + esc(m.role) + '</div>' +
     (m.affiliation ? '<div class="affil">' + esc(m.affiliation) + '</div>' : '') +
+    (m.honors ? '<div class="honors">' + esc(m.honors) + '</div>' : '') +
     '</div>' +
   '</div>';
 }

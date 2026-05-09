@@ -33,7 +33,7 @@ const LEVELS = {
 
 const TEAM = [
   { group: "pi", name: "Liran Ma",        role: "Lead Principal Investigator", affiliation: "Miami University",           image: "team/ma.png",        url: "https://miamioh.edu/profiles/cec/liran-ma.html" },
-  { group: "pi", name: "Zhipeng Cai",     role: "Lead Principal Investigator", affiliation: "Distinguished University Professor, Georgia State University",   image: "team/cai.jpg",       url: "https://cas.gsu.edu/profile/zhipeng-cai/" },
+  { group: "pi", name: "Zhipeng Cai",     role: "Lead Principal Investigator", affiliation: "Distinguished University Professor, Georgia State University", honors: "IEEE Fellow, ACM Distinguished Scientist, AAIA Fellow",   image: "team/cai.jpg",       url: "https://cas.gsu.edu/profile/zhipeng-cai/" },
   { group: "pi", name: "Curby Alexander", role: "Principal Investigator", affiliation: "Texas Christian University", image: "team/alexander.jpg", url: "https://coe.tcu.edu/about/faculty-staff/view/curby-alexander" },
   { group: "pi", name: "Honghui Xu",     role: "Principal Investigator", affiliation: "Kennesaw State University",  image: "team/xu.jpg",        url: "https://facultyweb.kennesaw.edu/hxu10/" },
 
