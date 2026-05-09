@@ -40,7 +40,7 @@ const TEAM = [
   { group: "collaborator", name: "Ze-Li Dou",   role: "Collaborator", affiliation: "Texas Christian University", image: "team/dou.jpg",  url: "https://cse.tcu.edu/mathematics/faculty-staff/view/zeli-dou" },
   { group: "collaborator", name: "Michael Faggella-Luby", role: "Collaborator", affiliation: "Texas Christian University", image: "team/faggella-luby.jpg", url: "https://coe.tcu.edu/about/faculty-staff/view/michael-faggella-luby" },
   { group: "collaborator", name: "Yan Huang",   role: "Collaborator", affiliation: "Kennesaw State University",  image: "team/huang.jpg", url: "https://facultyweb.kennesaw.edu/yhuang24/index.php" },
-  { group: "collaborator", name: "Yang Yang",   role: "Collaborator", affiliation: "",                           image: "team/yang.jpg",  url: "https://www.yangyangsite.com/" },
+  { group: "collaborator", name: "Yang Yang",   role: "Collaborator", affiliation: "", honors: "Experimental Psychologist", image: "team/yang.jpg",  url: "https://www.yangyangsite.com/" },
   { group: "collaborator", name: "Susan Staples", role: "Collaborator", affiliation: "Texas Christian University", image: "team/staples.jpg", url: "https://cse.tcu.edu/mathematics/faculty-staff/view/susan-staples" },
   { group: "collaborator", name: "Xinda Wang",  role: "Collaborator", affiliation: "University of Texas at Dallas", image: "team/wang.jpg",  url: "https://www.xindawang.org/" },
   { group: "collaborator", name: "Wei Cheng",   role: "Collaborator", affiliation: "University of Washington Tacoma", image: "team/weicheng.jpg", url: "https://faculty.washington.edu/uwcheng/" },
