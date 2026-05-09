@@ -50,7 +50,7 @@ const TEAM = [
   { group: "former", name: "Harrison Leath",  role: "Research Assistant", affiliation: "Founding Engineer, Archil",                    image: "team/harrison.jpg",  url: "https://www.linkedin.com/in/harrisonleath/" },
   { group: "former", name: "Blake Good",       role: "Research Assistant", affiliation: "Model Operations Engineer, Upland Capital Group", image: "team/blakegood.jpg", url: "https://www.linkedin.com/in/blake-good-353007290/" },
   { group: "former", name: "Duc Toan Nguyen", role: "Research Assistant", affiliation: "Ph.D. Student, Rice University",                   image: "team/ductoan.jpg",  url: "https://www.linkedin.com/in/duc-toan-nguyen-127311246/" },
-  { group: "former", name: "Taylor Griffin",    role: "Research Assistant", affiliation: "Allianz",           image: "team/taylor.jpg", url: "https://www.linkedin.com/in/imtaylorgriffin/" },
+  { group: "former", name: "Taylor Griffin",    role: "Research Assistant", affiliation: "Software Engineer, Allianz", image: "team/taylor.jpg", url: "https://www.linkedin.com/in/imtaylorgriffin/" },
   { group: "former", name: "Erika Rebollo Diaz", role: "Research Assistant", affiliation: "Software Engineer, J.P. Morgan Chase", image: "team/erika.jpg",  url: "https://www.linkedin.com/in/erika-rebollo-diaz/" },
   { group: "former", name: "Shawn Fahimi",       role: "Research Assistant", affiliation: "Software Engineer, J.P. Morgan Chase",     image: "team/shawn.jpg",  url: "https://www.linkedin.com/in/shawn-fahimi-0a487a177/" },
   { group: "former", name: "Riley Durbin",       role: "Research Assistant", affiliation: "Software Engineer, Texas Stock Exchange", image: "team/riley.jpg", url: "https://www.linkedin.com/in/rdurb/" },
