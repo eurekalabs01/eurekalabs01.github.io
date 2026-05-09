@@ -45,7 +45,7 @@ const TEAM = [
   { group: "collaborator", name: "Xinda Wang",  role: "Collaborator", affiliation: "University of Texas at Dallas", image: "team/wang.jpg",  url: "https://www.xindawang.org/" },
   { group: "collaborator", name: "Wei Cheng",   role: "Collaborator", affiliation: "University of Washington Tacoma", image: "team/weicheng.jpg", url: "https://faculty.washington.edu/uwcheng/" },
 
-  { group: "former", name: "Kien X. Nguyen",  role: "Research Assistant", affiliation: "University of Delaware", image: "team/kien.jpg", url: "https://nyquixt.github.io/" },
+  { group: "former", name: "Kien X. Nguyen",  role: "Research Assistant", affiliation: "Ph.D. Student, University of Delaware", image: "team/kien.jpg", url: "https://nyquixt.github.io/" },
   { group: "former", name: "Blake Lucas",     role: "Research Assistant", affiliation: "Ford Credit",                   image: null,                  url: "https://www.linkedin.com/in/blake-lucas-56b01a16a/" },
   { group: "former", name: "Harrison Leath",  role: "Research Assistant", affiliation: "Founding Engineer, Archil",                    image: "team/harrison.jpg",  url: "https://www.linkedin.com/in/harrisonleath/" },
   { group: "former", name: "Blake Good",       role: "Research Assistant", affiliation: "Model Operations Engineer, Upland Capital Group", image: "team/blakegood.jpg", url: "https://www.linkedin.com/in/blake-good-353007290/" },
