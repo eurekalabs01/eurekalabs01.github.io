@@ -68,6 +68,22 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "model-inversion",
+    title: "What the Model Reveals: Model Inversion Attacks and Defenses in Deep Learning",
+    categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
+    authors: "Zhipeng Cai, Liran Ma",
+    teaser: "When outputs reveal inputs, privacy gets complicated.",
+    description: "In this lab, students explore how a model's confidence scores can be used to reconstruct sensitive information from its outputs. Starting with a synthetic health-risk model, they use gradient ascent to recover class-level feature prototypes and measure reconstruction quality with mean squared error. They then extend the attack to images, reconstructing MNIST digit prototypes from noise and comparing the recovered images with true class averages. To defend against this leakage, students study two output-side defenses: confidence score suppression and output perturbation. By comparing reconstruction quality, attack success, and API utility, the lab shows that model inversion is fueled by informative outputs and that stronger privacy often requires sacrificing some usability or precision in what the model returns.",
+    image: "labs/model-inversion/cover.png",
+    pdf:   "labs/model-inversion/Model_Inversion.pdf",
+    updated: "2026-05-09", estimatedTime: "3-12 hours",
+    note: "This lab is designed to support different learning paths. It includes both attack and defense components, with a mix of fundamental ideas and more advanced material. Learners may complete the full lab in sequence, focus on selected sections, or skip some advanced parts and return to them later depending on their background, goals, and available time. The lab is intended to support both guided instruction and self-paced exploration.",
+    resources: [
+      { label: "Notebook (Model_Inversion.ipynb)", url: "labs/model-inversion/Model_Inversion.ipynb" },
+    ],
+  },
+
+  {
     id: "backdoor-attacks",
     title: "Hidden Triggers, Broken Trust: Backdoor Attacks and Defenses in Deep Neural Networks",
     categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
