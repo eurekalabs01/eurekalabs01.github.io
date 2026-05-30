@@ -70,8 +70,10 @@ function renderLabPage() {
 
   // Image
   var styleMap = {};
-  if (lab.imagePosition) styleMap["object-position"] = lab.imagePosition;
-  if (lab.imageFit)      { styleMap["object-fit"] = lab.imageFit; styleMap["max-height"] = "none"; }
+  if (lab.imagePosition)  styleMap["object-position"] = lab.imagePosition;
+  if (lab.imageFit)       styleMap["object-fit"]       = lab.imageFit;
+  if (lab.imageMaxHeight) styleMap["max-height"]        = lab.imageMaxHeight;
+  else if (lab.imageFit)  styleMap["max-height"]        = "none";
   var styleStr = Object.keys(styleMap).map(function(k) { return k + ":" + esc(styleMap[k]); }).join(";");
   var imgStyle = styleStr ? ' style="' + styleStr + '"' : "";
   const imageHTML = lab.image
