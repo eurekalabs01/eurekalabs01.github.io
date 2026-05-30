@@ -615,6 +615,7 @@ const LABS = [
     authors: "Liran Ma, Taylor Griffin",
     description: "Ransomware poses an ongoing and ever-evolving threat to computer security, jeopardizing the integrity of data and rendering files and systems absolutely useless. These attacks involve malicious software that encrypts victim data, holding it hostage and demanding a ransom in exchange for decrypting the files and restoring access.",
     image: "labs/ransomwhale/rw_whale.png",
+    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf: "labs/ransomwhale/00_Ransomware.pdf",
     updated: "2023-07-12", estimatedTime: "3 hours",
   },
