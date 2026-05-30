@@ -137,7 +137,7 @@ div.team-avatar { display: flex; align-items: center; justify-content: center; f
 .collab-grid .team-member .role { display: none; }
 
 /* --- Lab detail page (lab.html) --- */
-.lab-page { padding: 8rem 3rem 4rem; max-width: 780px; margin: 0 auto; }
+.lab-page { padding: 8rem 3rem 4rem; max-width: 960px; margin: 0 auto; }
 .back-link { display: inline-block; font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 2rem; transition: color 0.2s; }
 .back-link:hover { color: var(--color-forest); }
 .lab-header { margin-bottom: 2rem; }
