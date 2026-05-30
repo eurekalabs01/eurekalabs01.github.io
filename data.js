@@ -101,6 +101,7 @@ const LABS = [
     teaser: "Logistic regression gives the odds. Decisions still require context.",
     description: "In this lab, students practice logistic regression by modeling a binary outcome and then deciding how that probability should be used in action. Working with a simulated dataset, they learn why logistic regression is appropriate for binary responses, why linear regression is not, and how coefficient signs, predicted probabilities, and confusion-matrix results can be interpreted in practical language. They then examine how different probability thresholds change sensitivity, specificity, and accuracy, and use those tradeoffs to move from prediction to decision. By finishing with case-based judgment and an AI comparison activity, the lab shows that logistic regression does more than produce a number. It supports decisions that still require interpretation, policy, and human reasoning.",
     image: "labs/logistic-regression/Logistic_Regression.png",
+    imageFit: "contain",
     pdf:   "labs/logistic-regression/Logistic_Regression.pdf",
     updated: "2026-04-26", estimatedTime: "2-3 hours",
     resources: [
