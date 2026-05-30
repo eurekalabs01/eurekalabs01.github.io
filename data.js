@@ -560,6 +560,7 @@ const LABS = [
     authors: "Liran Ma, Zhipeng Cai, Wei Cheng",
     description: "In our Eureka Labs series, we have a lab that cracks WPA-PSK key via tricking a legitimate client into re-transmitting the EAPOL 4-way handshake frames. Differently, in this attack lab, the capture of a full EAPOL 4-way handshake is not required. The new attack is performed on the RSN IE (Robust Security Network Information Element) of a single EAPOL frame.",
     image: "labs/wpa-pmkid/PMKID-attack.png",
+    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf: "labs/wpa-pmkid/WPA-PSK-PMKID.pdf",
     updated: "2021-08-04", estimatedTime: "4 hours",
   },
