@@ -69,7 +69,11 @@ function renderLabPage() {
   const tagsHTML = labTagsHTML(lab);
 
   // Image
-  const imgStyle = lab.imagePosition ? ' style="object-position:' + esc(lab.imagePosition) + '"' : "";
+  var styleMap = {};
+  if (lab.imagePosition) styleMap["object-position"] = lab.imagePosition;
+  if (lab.imageFit)      { styleMap["object-fit"] = lab.imageFit; styleMap["max-height"] = "none"; }
+  var styleStr = Object.keys(styleMap).map(function(k) { return k + ":" + esc(styleMap[k]); }).join(";");
+  var imgStyle = styleStr ? ' style="' + styleStr + '"' : "";
   const imageHTML = lab.image
     ? '<div class="lab-image"><img src="' + esc(lab.image) + '" alt="' + esc(lab.title) + '"' + imgStyle + '></div>'
     : "";
