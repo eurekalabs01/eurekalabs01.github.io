@@ -166,7 +166,7 @@ const LABS = [
     teaser: "Small perturbations, serious consequences, and no free defense.",
     description: "In this lab, students explore how tiny, carefully crafted pixel changes can cause a deep learning model to fail in surprisingly dramatic ways. Using a small CNN trained on MNIST, they investigate two classic adversarial attacks, FGSM and PGD, and observe how model accuracy collapses even when the perturbed images still look unchanged to human eyes. They then examine two defense strategies, adversarial training and feature squeezing, and compare the tradeoffs each one makes in robustness, clean accuracy, computational cost, and practical deployment. By moving from clean baseline to attack to defense, students learn that deep learning models can be highly accurate yet unexpectedly fragile, and that defending them requires balancing security, performance, and realism.",
     image: "labs/adversarial-attacks/cover.png",
-    imageFit: "scale-down", imageMaxHeight: "365px",
+    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf:   "labs/adversarial-attacks/Adversarial.pdf",
     updated: "2026-02-07", estimatedTime: "2-8 hours",
     note: "This lab is designed to be flexible. It includes both attack and defense components, with a mix of fundamental and more advanced material. Depending on their background, goals, and available time, learners may complete the full lab in sequence, focus on selected sections only, or skip some advanced parts and return to them later. Instructors may also adapt the lab to different levels by emphasizing either the conceptual foundations or the more technical implementation details. The lab is intended to support self-paced exploration as well as guided classroom use.",
