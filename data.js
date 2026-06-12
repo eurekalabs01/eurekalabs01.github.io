@@ -387,6 +387,7 @@ const LABS = [
 
   {
     id: "take-my-coin",
+    hidden: true,
     title: "Take My Coin!",
     categories: ["network"], level: ["fundamental"],
     authors: "Liran Ma, Zhipeng Cai",
@@ -420,6 +421,7 @@ const LABS = [
 
   {
     id: "bleeding-heart",
+    hidden: true,
     title: "Bleeding Heart",
     categories: ["network", "system"], level: ["advanced"],
     authors: "Liran Ma, Zhipeng Cai",
@@ -520,6 +522,7 @@ const LABS = [
 
   {
     id: "one-pixel-attack",
+    hidden: true,
     title: "\u201cPixie and Dixie vs. Mr. AI\u201d: One-Pixel Attack",
     categories: ["mobile", "deeplearning", "ai"], level: ["advanced"],
     authors: "Zhipeng Cai, Liran Ma, Wei Cheng",
