@@ -101,7 +101,6 @@ const LABS = [
     teaser: "Logistic regression gives the odds. Decisions still require context.",
     description: "In this lab, students practice logistic regression by modeling a binary outcome and then deciding how that probability should be used in action. Working with a simulated dataset, they learn why logistic regression is appropriate for binary responses, why linear regression is not, and how coefficient signs, predicted probabilities, and confusion-matrix results can be interpreted in practical language. They then examine how different probability thresholds change sensitivity, specificity, and accuracy, and use those tradeoffs to move from prediction to decision. By finishing with case-based judgment and an AI comparison activity, the lab shows that logistic regression does more than produce a number. It supports decisions that still require interpretation, policy, and human reasoning.",
     image: "labs/logistic-regression/Logistic_Regression.png",
-    imageFit: "contain", imageMaxHeight: "480px",
     pdf:   "labs/logistic-regression/Logistic_Regression.pdf",
     updated: "2026-04-26", estimatedTime: "2-3 hours",
     resources: [
@@ -166,7 +165,6 @@ const LABS = [
     teaser: "Small perturbations, serious consequences, and no free defense.",
     description: "In this lab, students explore how tiny, carefully crafted pixel changes can cause a deep learning model to fail in surprisingly dramatic ways. Using a small CNN trained on MNIST, they investigate two classic adversarial attacks, FGSM and PGD, and observe how model accuracy collapses even when the perturbed images still look unchanged to human eyes. They then examine two defense strategies, adversarial training and feature squeezing, and compare the tradeoffs each one makes in robustness, clean accuracy, computational cost, and practical deployment. By moving from clean baseline to attack to defense, students learn that deep learning models can be highly accurate yet unexpectedly fragile, and that defending them requires balancing security, performance, and realism.",
     image: "labs/adversarial-attacks/cover.png",
-    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf:   "labs/adversarial-attacks/Adversarial.pdf",
     updated: "2026-02-07", estimatedTime: "2-8 hours",
     note: "This lab is designed to be flexible. It includes both attack and defense components, with a mix of fundamental and more advanced material. Depending on their background, goals, and available time, learners may complete the full lab in sequence, focus on selected sections only, or skip some advanced parts and return to them later. Instructors may also adapt the lab to different levels by emphasizing either the conceptual foundations or the more technical implementation details. The lab is intended to support self-paced exploration as well as guided classroom use.",
@@ -199,7 +197,6 @@ const LABS = [
     teaser: "A smile looks simple, until a CNN tries to explain it.",
     description: "In this lab, students explore how Convolutional Neural Networks (CNNs) learn to recognize emotion from images. Starting with a simple human question, \"How are you feeling?\", they investigate how machines process facial cues through convolution, pooling, activation functions, dropout, and fully connected layers. Using a beginner-friendly experimental setup, students tune model architecture, compare optimizers such as SGD and Adam, track accuracy and loss, and reflect on overfitting, early stopping, and model uncertainty. Along the way, they discover that CNNs can become powerful pattern readers, but emotion recognition is more than a technical problem because context, privacy, fairness, and human meaning still matter.",
     image: "labs/emotion-cnn/cover.png",
-    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf:   "labs/emotion-cnn/CNN.pdf",
     updated: "2025-09-20", estimatedTime: "2-8 hours",
     resources: [
@@ -226,7 +223,7 @@ const LABS = [
     authors: "Liran Ma, Zhipeng Cai",
     teaser: "When human age guesses wobble, regression keeps a straight face.",
     description: "Estimating a person's age from a face may sound simple, but human guesses are often inconsistent and unreliable. In this lab, students turn face age estimation into a data-driven prediction problem using regression. Working with the UTKFace dataset, they extract facial features from raw pixels, HOG descriptors, and deep CNN representations, then compare how OLS, Ridge, and Lasso perform on the task. Along the way, they see why high-dimensional features can make ordinary least squares unstable and how regularization improves robustness, generalization, and interpretability. By evaluating models with mean absolute error, students learn that effective age prediction depends not only on fitting a model, but also on choosing the right representation and controlling complexity.",
-    image: "labs/regression-face/cover.png", imagePosition: "top",
+    image: "labs/regression-face/cover.png",
     pdf:   "labs/regression-face/Regression.pdf",
     updated: "2025-08-15", estimatedTime: "3-5 hours",
     resources: [
@@ -244,7 +241,6 @@ const LABS = [
     teaser: "When the data gets messy, SVM steps in and draws the line.",
     description: "In this lab, students explore how Support Vector Machines (SVMs) classify data by finding the decision boundary that best separates competing groups. Rather than drawing just any line, SVM searches for the one that maximizes the margin, making the classifier more robust and reliable. Through hands-on experimentation, students examine linear separation, identify support vectors, and see how kernel methods help SVM tackle data that cannot be separated in the original feature space. By visualizing boundaries, margins, and classification outcomes, students build an intuitive understanding of how SVM balances geometry and prediction. This lab shows that effective classification is not only about splitting data, but about drawing the smartest possible line.",
     image: "labs/svm-showdown/cover.png",
-    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf:   "labs/svm-showdown/SVM.pdf",
     updated: "2025-07-03", estimatedTime: "3-4 hours",
     resources: [
@@ -259,7 +255,7 @@ const LABS = [
     authors: "Liran Ma, Zhipeng Cai, Rongrong Qian",
     teaser: "Picking cereal sounds easy, until PCA starts reading the label more carefully than you do.",
     description: "Choosing a healthy cereal may seem straightforward, until nutrition labels begin to tell conflicting stories. In this lab, students explore how relying on a single measure such as sugar can lead to misleading conclusions about healthfulness. Using a real-world cereal dataset, they analyze multiple nutritional features, including calories, fat, fiber, protein, and potassium, to uncover deeper patterns in the data. Students then apply Principal Component Analysis (PCA) to reduce dimensionality, identify the most informative combinations of features, and visualize how cereals group in a lower-dimensional space. By comparing models built from raw variables, sugar alone, and PCA-derived components, students see how PCA can simplify analysis while preserving meaningful structure. This lab shows how PCA helps transform a confusing selection problem into a more informed, data-driven decision.",
-    image: "labs/cereal-pca/cover.png", imagePosition: "top",
+    image: "labs/cereal-pca/cover.png",
     pdf: "labs/cereal-pca/PCA.pdf",
     updated: "2025-08-03", estimatedTime: "2-3 hours",
     resources: [
@@ -561,7 +557,6 @@ const LABS = [
     authors: "Liran Ma, Zhipeng Cai, Wei Cheng",
     description: "In our Eureka Labs series, we have a lab that cracks WPA-PSK key via tricking a legitimate client into re-transmitting the EAPOL 4-way handshake frames. Differently, in this attack lab, the capture of a full EAPOL 4-way handshake is not required. The new attack is performed on the RSN IE (Robust Security Network Information Element) of a single EAPOL frame.",
     image: "labs/wpa-pmkid/PMKID-attack.png",
-    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf: "labs/wpa-pmkid/WPA-PSK-PMKID.pdf",
     updated: "2021-08-04", estimatedTime: "4 hours",
   },
@@ -617,7 +612,6 @@ const LABS = [
     authors: "Liran Ma, Taylor Griffin",
     description: "Ransomware poses an ongoing and ever-evolving threat to computer security, jeopardizing the integrity of data and rendering files and systems absolutely useless. These attacks involve malicious software that encrypts victim data, holding it hostage and demanding a ransom in exchange for decrypting the files and restoring access.",
     image: "labs/ransomwhale/rw_whale.png",
-    imageFit: "scale-down", imageMaxHeight: "480px",
     pdf: "labs/ransomwhale/00_Ransomware.pdf",
     updated: "2023-07-12", estimatedTime: "3 hours",
   },

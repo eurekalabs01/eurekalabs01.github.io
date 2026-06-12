@@ -74,7 +74,6 @@ Both pages share the same `utils.js` — any tag-rendering logic belongs there, 
   teaser: "One-line hook.",
   description: "Full abstract paragraph.",
   image: "labs/my-lab-id/cover.png",
-  imagePosition: "top",          // optional — use when cover image has top text
   pdf:   "labs/my-lab-id/Manual.pdf",
   updated: "2025-01-15",         // YYYY-MM-DD
   estimatedTime: "2-4 hours",
@@ -85,6 +84,8 @@ Both pages share the same `utils.js` — any tag-rendering logic belongs there, 
 ```
 
 3. `git add data.js labs/{id}/` and commit + push
+
+Cover images display at their natural aspect ratio on the lab detail page — never cropped or upscaled, capped at 480px tall (see `.lab-image` in `style.css`). Any reasonable image works; landscape around 2:1 to 3:1 fills the width best. Keep files under ~500 KB when possible.
 
 ## Adding a Team Member
 

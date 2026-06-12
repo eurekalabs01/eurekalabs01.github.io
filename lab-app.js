@@ -68,16 +68,9 @@ function renderLabPage() {
   // Tags
   const tagsHTML = labTagsHTML(lab);
 
-  // Image
-  var styleMap = {};
-  if (lab.imagePosition)  styleMap["object-position"] = lab.imagePosition;
-  if (lab.imageFit)       styleMap["object-fit"]       = lab.imageFit;
-  if (lab.imageMaxHeight) styleMap["max-height"]        = lab.imageMaxHeight;
-  else if (lab.imageFit)  styleMap["max-height"]        = "none";
-  var styleStr = Object.keys(styleMap).map(function(k) { return k + ":" + esc(styleMap[k]); }).join(";");
-  var imgStyle = styleStr ? ' style="' + styleStr + '"' : "";
+  // Image — displayed at natural aspect ratio by .lab-image CSS
   const imageHTML = lab.image
-    ? '<div class="lab-image"><img src="' + esc(lab.image) + '" alt="' + esc(lab.title) + '"' + imgStyle + '></div>'
+    ? '<div class="lab-image"><img src="' + esc(lab.image) + '" alt="' + esc(lab.title) + '"></div>'
     : "";
 
   // Metadata bar
