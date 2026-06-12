@@ -25,7 +25,8 @@ function truncateAtWord(str, max) {
 
 function renderLabPage() {
   const id  = getLabId();
-  const lab = id ? LABS.find(function(l) { return l.id === id; }) : null;
+  // Hidden labs render the not-found state (with noindex) like missing ids
+  const lab = id ? LABS.find(function(l) { return l.id === id && !l.hidden; }) : null;
 
   // 404 state
   if (!lab) {

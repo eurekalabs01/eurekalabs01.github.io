@@ -60,7 +60,10 @@ function buildFilters() {
 
   // Only show filter buttons for categories that have at least one lab
   const usedCats = new Set();
-  LABS.forEach(function(lab) { lab.categories.forEach(function(c) { usedCats.add(c); }); });
+  LABS.forEach(function(lab) {
+    if (lab.hidden) return;
+    lab.categories.forEach(function(c) { usedCats.add(c); });
+  });
 
   let catHTML = '<button class="filter-btn" aria-pressed="true" data-cat="all">All</button>';
   Object.keys(CATEGORIES).forEach(function(id) {
@@ -102,8 +105,9 @@ function renderLabs() {
   const countEl = document.getElementById("labs-count");
   const emptyEl = document.getElementById("no-results");
 
-  // 1. Filter by category and level
+  // 1. Filter by category and level (hidden labs never render)
   let results = LABS.filter(function(lab) {
+    if (lab.hidden) return false;
     const catOk   = activeCat   === "all" || lab.categories.indexOf(activeCat) !== -1;
     const levels  = Array.isArray(lab.level) ? lab.level : [lab.level];
     const levelOk = activeLevel === "all" || levels.indexOf(activeLevel) !== -1;
