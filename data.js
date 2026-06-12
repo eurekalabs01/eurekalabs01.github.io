@@ -508,6 +508,7 @@ const LABS = [
 
   {
     id: "video-aficionado",
+    hidden: true,
     title: "Video Aficionado",
     categories: ["mobile"], level: ["challenging"],
     authors: "Liran Ma, Zhipeng Cai, Wei Cheng",
