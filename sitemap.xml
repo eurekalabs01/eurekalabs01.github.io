@@ -30,10 +30,8 @@
   <url><loc>https://eurekalabs.net/lab.html?id=evil-twin</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=passing-passwords</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=xss</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://eurekalabs.net/lab.html?id=take-my-coin</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=identity-demystified</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=crypto-flickered</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://eurekalabs.net/lab.html?id=bleeding-heart</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=not-so-personal-data</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=invisible-surfing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=shell-shattered</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -41,7 +39,6 @@
   <url><loc>https://eurekalabs.net/lab.html?id=poodle</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=intruder-hunt</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=walls-have-ears</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://eurekalabs.net/lab.html?id=one-pixel-attack</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=wpa3-dragonfly</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=enhanced-open</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://eurekalabs.net/lab.html?id=wpa-pmkid</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
