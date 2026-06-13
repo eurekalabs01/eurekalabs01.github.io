@@ -78,6 +78,22 @@ const TEAM = [
 const LABS = [
 
   {
+    id: "kmeans-clustering",
+    title: "When Distance Shapes the Story: Clustering with K-means",
+    categories: ["ai"], level: ["fundamental"],
+    authors: "Liran Ma, Zhipeng Cai",
+    teaser: "Change the features, change the distance, change the story.",
+    description: "In this lab, students use K-means clustering to build a restaurant “dinner risk map” from NYC restaurant inspection data. Starting with raw inspection-level records, they clean the data and construct a restaurant-level table so that each restaurant counts once. They then run a three-step experiment: first clustering by geography alone, then adding inspection score, and finally incorporating cuisine through one-hot encoding and adjustable weighting. Along the way, students learn what K-means is optimizing, how assignment and centroid updates work, why initialization and local minima matter, and how scaling can completely change the geometry of similarity. The lab shows that clustering does not reveal one fixed truth. It reveals patterns defined by the features, distances, and modeling choices used to represent the data.",
+    image: "labs/kmeans-clustering/cover.jpg",
+    pdf:   "labs/kmeans-clustering/K-means.pdf",
+    updated: "2026-06-02", estimatedTime: "3-5 hours",
+    note: "This lab is designed to support different learning paths. It includes both foundational clustering ideas and more advanced questions about feature design, scaling, weighting, and interpretability. Learners may work through the full three-step experiment in sequence, focus mainly on the core K-means workflow, or spend more time comparing how geography, score, and cuisine reshape the clustering results. Some parts can be skipped and revisited later, making the lab suitable for both guided instruction and self-paced exploration.",
+    resources: [
+      { label: "Notebook (K-means.ipynb)", url: "labs/kmeans-clustering/K-means.ipynb" },
+    ],
+  },
+
+  {
     id: "model-inversion",
     title: "What the Model Reveals: Model Inversion Attacks and Defenses in Deep Learning",
     categories: ["deeplearning", "ai"], level: ["fundamental", "advanced"],
