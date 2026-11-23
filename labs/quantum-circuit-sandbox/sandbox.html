@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantum Circuit Sandbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: toolbar, then gate palette above the circuit and step scrubber, then the state in Dirac form, Bloch spheres, probabilities and amplitudes */
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --ink: #142030;
+  --muted: #586678;
+  --line: #d6dce4;
+  --accent: #0a6c8f;
+  --band: #edf1f5;
+  --sphere: #eef4f9;
+  --wire: #8a96a6;
+  --g-h: #2c63c6;
+  --g-pauli: #c2440f;
+  --g-phase: #7a3fe0;
+  --ok: #15803d;
+  --bad: #c0262d;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e151e; --surface: #16202b; --ink: #e5ecf4; --muted: #98a6b7; --line: #2a3747;
+    --accent: #4bb4dc; --band: #1a2531; --sphere: #1b2836; --wire: #66768a;
+    --g-h: #3f7be0; --g-pauli: #dd6232; --g-phase: #9468f0; --ok: #3cc47e; --bad: #f06a6a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e151e; --surface: #16202b; --ink: #e5ecf4; --muted: #98a6b7; --line: #2a3747;
+  --accent: #4bb4dc; --band: #1a2531; --sphere: #1b2836; --wire: #66768a;
+  --g-h: #3f7be0; --g-pauli: #dd6232; --g-phase: #9468f0; --ok: #3cc47e; --bad: #f06a6a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.45; }
+.page { max-width: 1320px; margin: 0 auto; padding: 20px 20px 56px; display: grid; gap: 18px; }
+
+header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; }
+.back { display: inline-block; font-size: 0.88rem; color: var(--accent); margin-bottom: 6px; }
+h1 { font-size: 1.6rem; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { margin: 4px 0 0; color: var(--muted); max-width: 65ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+button, select { font: inherit; font-size: 0.92rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 7px 12px; cursor: pointer; }
+button:hover:not(:disabled), select:hover { border-color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: default; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
+
+.example { border-left: 4px solid var(--accent); display: grid; gap: 12px; }
+.ex-head { display: flex; flex-wrap: wrap; gap: 10px 20px; justify-content: space-between; align-items: flex-start; }
+.ex-head h2 { font-size: 1.25rem; margin: 2px 0 0; }
+.ex-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.ex-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px 28px; }
+@media (max-width: 760px) { .ex-body { grid-template-columns: minmax(0, 1fr); } }
+.ex-body h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0 0 4px; }
+.ex-body p { margin: 0; max-width: 65ch; }
+.ex-body .k { font-family: var(--font-mono); font-size: 0.93em; white-space: nowrap; }
+.ex-note { margin: 0; font-size: 0.86rem; color: var(--muted); }
+.ex-note:empty { display: none; }
+.palette { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+.pgroup { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pgroup-label { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-right: 4px; }
+.pgate { touch-action: none; cursor: grab; user-select: none; }
+.pgate.one { width: 46px; height: 46px; padding: 0; border: none; border-radius: 8px; color: #fff; font-family: var(--font-mono); font-weight: 600; font-size: 1.15rem; }
+.pgate.one:hover { filter: brightness(1.08); }
+.pgate[data-cat="h"] { background: var(--g-h); }
+.pgate[data-cat="pauli"] { background: var(--g-pauli); }
+.pgate[data-cat="phase"] { background: var(--g-phase); }
+.pgate.two { height: 46px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px 0 8px; font-family: var(--font-mono); font-weight: 600; }
+.pgate.two svg { display: block; }
+.gate-info { color: var(--muted); font-size: 0.93rem; min-height: 1.45em; margin: 12px 0 0; max-width: 90ch; }
+.gate-info b { color: var(--ink); }
+
+.circuit-wrap { overflow-x: auto; margin-top: 12px; border-top: 1px solid var(--line); padding-top: 4px; }
+#circuit { display: block; }
+#circuit text { font-family: var(--font-mono); }
+.wire { stroke: var(--wire); stroke-width: 2; }
+.band { fill: var(--band); }
+.colnum { fill: var(--muted); font-size: 11px; text-anchor: middle; }
+.qlabel { fill: var(--ink); font-size: 15px; font-weight: 600; dominant-baseline: central; }
+.ket { cursor: pointer; }
+.ket rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+.ket text { fill: var(--ink); font-size: 15px; text-anchor: middle; dominant-baseline: central; }
+.ket:hover rect, .ket:focus-visible rect { stroke: var(--accent); }
+.ket.one rect { stroke: var(--accent); }
+.rm { cursor: pointer; }
+.rm circle { fill: transparent; stroke: var(--line); stroke-width: 1.5; }
+.rm text { fill: var(--muted); font-size: 14px; text-anchor: middle; dominant-baseline: central; }
+.rm:hover circle, .rm:focus-visible circle { stroke: var(--bad); }
+.rm:hover text, .rm:focus-visible text { fill: var(--bad); }
+.ket:focus, .rm:focus { outline: none; }
+.gate { cursor: grab; touch-action: none; }
+.glabel { fill: #fff; font-size: 18px; font-weight: 600; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.g2line { stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.ctrl { fill: var(--ink); }
+.tgt { fill: var(--surface); stroke: var(--ink); stroke-width: 2.5; }
+.hit { fill: transparent; }
+.gate.future { opacity: 0.25; }
+.gate.dragging { opacity: 0.18; }
+.preview { opacity: 0.6; pointer-events: none; }
+.drop-ok { fill: none; stroke: var(--ok); stroke-width: 2; stroke-dasharray: 5 4; }
+.drop-bad { fill: none; stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.stepline { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 4; }
+
+.under { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 8px; }
+.hint { color: var(--muted); font-size: 0.88rem; }
+
+.stepper { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.stepper input[type="range"] { flex: 1 1 220px; accent-color: var(--accent); }
+#stepLabel { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 22ch; }
+
+.summary { display: grid; gap: 8px; }
+.summary-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; }
+.eyebrow { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.dirac { font-family: var(--font-mono); font-size: 1.32rem; line-height: 1.7; overflow-wrap: anywhere; }
+.dirac .psi { color: var(--accent); font-weight: 600; }
+.dirac sup { font-size: 0.62em; }
+.order { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.88rem; color: var(--muted); }
+.order label { display: inline-flex; gap: 5px; align-items: center; cursor: pointer; }
+.order input { accent-color: var(--accent); }
+
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.results .wide { grid-column: 1 / -1; }
+@media (max-width: 860px) { .results { grid-template-columns: minmax(0, 1fr); } }
+h2 { font-size: 1.05rem; margin: 0 0 4px; text-wrap: balance; }
+.panel-note { color: var(--muted); font-size: 0.88rem; margin: 0 0 12px; max-width: 75ch; }
+.bloch-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+.bloch-card { width: 196px; display: grid; gap: 4px; justify-items: center; text-align: center; }
+.bloch-card .qname { font-family: var(--font-mono); font-weight: 600; }
+.bloch-card .coords { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pq { display: grid; gap: 3px; justify-items: center; }
+.pq-bar { display: flex; width: 150px; height: 8px; border-radius: 4px; overflow: hidden; background: var(--band); }
+.pq-0 { background: var(--accent); opacity: 0.45; }
+.pq-1 { background: var(--accent); }
+.chip { font-size: 0.8rem; padding: 2px 9px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+.chip.pure { border-color: var(--accent); color: var(--accent); }
+.chip.ent { border-color: var(--g-phase); color: var(--g-phase); }
+.sph-ring { fill: var(--sphere); stroke: var(--wire); stroke-width: 1.2; }
+.sph-line { fill: none; stroke: var(--wire); stroke-width: 1; }
+.sph-back { fill: none; stroke: var(--wire); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
+.sph-axis { stroke: var(--wire); stroke-width: 1; opacity: 0.8; }
+.sph-label { fill: var(--muted); font-family: var(--font-mono); font-size: 11px; text-anchor: middle; dominant-baseline: central; }
+.sph-vec { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; }
+.sph-tip { fill: var(--accent); }
+.sph-shadow { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0.7; }
+
+.chart-svg { display: block; width: 100%; height: auto; }
+.chart-svg text { font-family: var(--font-mono); fill: var(--muted); font-size: 11px; }
+.chart-grid { stroke: var(--line); stroke-width: 1; }
+.chart-bar { fill: var(--accent); }
+.chart-val { fill: var(--ink) !important; }
+
+.workbench { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 420px); gap: 18px; align-items: stretch; }
+.amp-card { display: flex; flex-direction: column; }
+.amp-card > .panel-note { margin-bottom: 8px; }
+.sub-h { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 6px 0 4px; font-weight: 700; }
+.panel-note.tight { margin: 0 0 4px; font-size: 0.84rem; }
+.panel-note.tight:empty { display: none; }
+.qtable { margin-bottom: 10px; }
+.qtable td { padding: 4px 8px; }
+.qtable .pq-bar { width: 70px; height: 7px; display: inline-flex; vertical-align: middle; margin-right: 6px; }
+.linkish { border: none; background: none; padding: 0; color: var(--accent); text-decoration: underline; font-size: inherit; cursor: pointer; }
+.amp-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; }
+.table-tools { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; font-size: 0.88rem; color: var(--muted); }
+/* height 0 + flex-grow: the table fills the height set by the circuit card instead of stretching it */
+.table-scroll { flex: 1 1 auto; height: 0; min-height: 240px; overflow: auto; }
+@media (max-width: 1040px) {
+  .workbench { grid-template-columns: minmax(0, 1fr); }
+  .table-scroll { height: auto; max-height: 380px; }
+}
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 0.78rem; color: var(--muted); font-weight: 700; border-bottom: 1px solid var(--line); padding: 6px 8px; position: sticky; top: 0; background: var(--surface); }
+td { padding: 5px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td.mono { font-family: var(--font-mono); font-size: 0.9rem; }
+.pbar { display: inline-block; width: 60px; height: 8px; background: var(--band); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 8px; }
+.pbar span { display: block; height: 100%; background: var(--accent); }
+.phase-cell { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); }
+.phase-cell svg circle.o { fill: none; stroke: var(--line); stroke-width: 1.5; }
+.phase-cell svg circle.f { fill: var(--accent); opacity: 0.3; }
+.phase-cell svg line { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
+
+.ghost { position: fixed; z-index: 20; pointer-events: none; padding: 6px 10px; border-radius: 8px; background: var(--ink); color: var(--bg); font-family: var(--font-mono); font-size: 0.88rem; white-space: nowrap; }
+.ghost.del { background: var(--bad); color: #fff; }
+.toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 9px 15px; border-radius: 8px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 30; max-width: calc(100% - 32px); }
+.toast.show { opacity: 1; }
+body.is-dragging, body.is-dragging * { cursor: grabbing !important; user-select: none; }
+
+dialog { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); padding: 18px; width: min(640px, calc(100% - 32px)); }
+dialog::backdrop { background: rgba(10, 16, 24, 0.45); }
+dialog h2 { margin-bottom: 8px; }
+dialog textarea { width: 100%; height: 260px; font-family: var(--font-mono); font-size: 0.85rem; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px; resize: vertical; }
+.dialog-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-top: 10px; }
+#ioMsg { color: var(--muted); font-size: 0.88rem; min-height: 1.3em; margin: 6px 0 0; }
+
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+@media (max-width: 480px) { .page { padding: 14px 16px 40px; } .dirac { font-size: 1.1rem; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div>
+      <a class="back" href="../../lab.html?id=quantum-circuit-sandbox">← Back to the lab and exercises</a>
+      <h1>Quantum Circuit Sandbox</h1>
+      <p class="sub">Drag gates onto the qubit wires. The state, Bloch spheres and probabilities update as you build.</p>
+    </div>
+    <div class="tools">
+      <select id="examples" aria-label="Load an example circuit">
+        <option value="">Load an example…</option>
+      </select>
+      <button id="undoBtn" type="button" title="Undo (Ctrl+Z)">Undo</button>
+      <button id="redoBtn" type="button" title="Redo (Ctrl+Shift+Z)">Redo</button>
+      <button id="clearBtn" type="button" title="Remove all gates and extra qubits">Clear circuit</button>
+      <button id="ioBtn" type="button">Save / load</button>
+    </div>
+  </header>
+
+  <section class="card example" id="exPanel" aria-labelledby="exTitle" hidden>
+    <div class="ex-head">
+      <div>
+        <span class="eyebrow">Example</span>
+        <h2 id="exTitle"></h2>
+      </div>
+      <div class="ex-actions">
+        <button type="button" id="exWalk" class="primary">Step through from the start</button>
+        <button type="button" id="exClose" aria-label="Close the example notes">Close</button>
+      </div>
+    </div>
+    <div class="ex-body">
+      <div><h3>What it does</h3><p id="exWhat"></p></div>
+      <div><h3>What to watch</h3><p id="exWatch"></p></div>
+    </div>
+    <p class="ex-note" id="exNote"></p>
+  </section>
+
+  <div class="workbench">
+  <section class="card builder" aria-label="Circuit builder">
+    <div class="palette" role="toolbar" aria-label="Gates">
+      <div class="pgroup">
+        <span class="pgroup-label">One qubit</span>
+        <button type="button" class="pgate one" data-type="H" data-cat="h" aria-label="Hadamard gate">H</button>
+        <button type="button" class="pgate one" data-type="X" data-cat="pauli" aria-label="Pauli X gate">X</button>
+        <button type="button" class="pgate one" data-type="Y" data-cat="pauli" aria-label="Pauli Y gate">Y</button>
+        <button type="button" class="pgate one" data-type="Z" data-cat="pauli" aria-label="Pauli Z gate">Z</button>
+        <button type="button" class="pgate one" data-type="S" data-cat="phase" aria-label="S phase gate">S</button>
+        <button type="button" class="pgate one" data-type="T" data-cat="phase" aria-label="T phase gate">T</button>
+      </div>
+      <div class="pgroup">
+        <span class="pgroup-label">Two qubits</span>
+        <button type="button" class="pgate two" data-type="CNOT" aria-label="CNOT gate">
+          <svg width="24" height="36" viewBox="0 0 24 36" aria-hidden="true"><line x1="12" y1="7" x2="12" y2="29" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" fill="currentColor"/><circle cx="12" cy="26" r="8" fill="none" stroke="currentColor" stroke-width="2"/><line x1="4" y1="26" x2="20" y2="26" stroke="currentColor" stroke-width="2"/></svg>CNOT</button>
+        <button type="button" class="pgate two" data-type="CZ" aria-label="Controlled Z gate">
+          <svg width="24" height="36" viewBox="0 0 24 36" aria-hidden="true"><line x1="12" y1="7" x2="12" y2="29" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" fill="currentColor"/><circle cx="12" cy="29" r="4" fill="currentColor"/></svg>CZ</button>
+        <button type="button" class="pgate two" data-type="SWAP" aria-label="SWAP gate">
+          <svg width="24" height="36" viewBox="0 0 24 36" aria-hidden="true"><line x1="12" y1="7" x2="12" y2="29" stroke="currentColor" stroke-width="2"/><path d="M7 2 L17 12 M17 2 L7 12 M7 24 L17 34 M17 24 L7 34" stroke="currentColor" stroke-width="2"/></svg>SWAP</button>
+      </div>
+    </div>
+    <p class="gate-info" id="gateInfo" aria-live="polite"></p>
+
+    <div class="circuit-wrap" id="circuitWrap">
+      <svg id="circuit" role="img" aria-label="Quantum circuit"></svg>
+    </div>
+    <div class="under">
+      <button type="button" id="addQ">+ Add qubit</button>
+      <span class="hint">Click a |0⟩ box to start that qubit in |1⟩. Drag the ● or ⊕ of a two-qubit gate to change its control or target. To remove a gate, drag it off the circuit or double-click it.</span>
+    </div>
+
+    <div class="stepper" aria-label="Step through the circuit">
+      <button type="button" id="stStart">Start</button>
+      <button type="button" id="stBack">Back</button>
+      <input type="range" id="step" min="0" max="0" value="0" aria-label="Show the state after this many steps">
+      <button type="button" id="stNext">Next</button>
+      <button type="button" id="stEnd">End</button>
+      <button type="button" id="stPlay" class="primary">Play</button>
+      <output id="stepLabel" for="step"></output>
+    </div>
+  </section>
+
+  <section class="card amp-card" aria-labelledby="ampTitle">
+    <h2 id="ampTitle">Amplitudes and probabilities</h2>
+    <p class="panel-note" id="ampNote">For the state at the current step.</p>
+    <h3 class="sub-h" id="qsumTitle">Each qubit</h3>
+    <div id="qsum"></div>
+    <div class="amp-head">
+      <h3 class="sub-h" id="allTitle">All qubits together</h3>
+      <label class="table-tools"><input type="checkbox" id="hideZero"> Hide zero rows</label>
+    </div>
+    <p class="panel-note tight" id="rowNote"></p>
+    <div class="table-scroll" id="table"></div>
+  </section>
+  </div>
+
+  <section class="card summary" aria-label="Current state">
+    <div class="summary-head">
+      <span class="eyebrow" id="stateHeading">State</span>
+      <div class="order" role="radiogroup" aria-label="Basis label order">
+        <span>Basis labels:</span>
+        <label><input type="radio" name="order" id="orderTextbook" value="q0first" checked> q0 on the left (textbook)</label>
+        <label><input type="radio" name="order" id="orderQiskit" value="q0last"> q0 on the right (Qiskit)</label>
+      </div>
+    </div>
+    <div class="dirac" id="dirac"></div>
+  </section>
+
+  <section class="results">
+    <div class="card wide">
+      <h2>Measurement probabilities</h2>
+      <p class="panel-note">Chance of reading each basis state if every qubit is measured now.</p>
+      <div id="chart"></div>
+    </div>
+    <div class="card wide">
+      <h2>Each qubit on the Bloch sphere</h2>
+      <p class="panel-note">Each sphere shows one qubit looked at on its own. An arrow on the surface means the qubit has a definite state of its own, like |0⟩ or |+⟩. When the qubit is entangled with others, the arrow shrinks toward the center. At the very center the qubit on its own is a 50/50 mix of 0 and 1: measuring it gives each result half the time, as with |+⟩, but the outcome is tied to the other qubits, and no gate on this qubit alone can make it definite again.</p>
+      <div class="bloch-grid" id="bloch"></div>
+    </div>
+  </section>
+</div>
+
+<div class="ghost" id="ghost" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="io" aria-labelledby="ioTitle">
+  <h2 id="ioTitle">Save or load a circuit</h2>
+  <p class="panel-note">Copy this text to keep a circuit for a later class. Paste text here and press Load to bring one back.</p>
+  <textarea id="ioText" spellcheck="false" aria-label="Circuit as JSON"></textarea>
+  <p id="ioMsg"></p>
+  <div class="dialog-actions">
+    <button type="button" id="ioCopy">Copy</button>
+    <button type="button" id="ioLoad" class="primary">Load</button>
+    <button type="button" id="ioClose">Close</button>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+  const COLW = 64, ROWH = 64, LEFT = 112, TOP = 30, MAXQ = 6, MINCOLS = 8;
+  const R2 = Math.SQRT1_2;
+
+  const GATES = {
+    H:    { arity: 1, cat: "h",     name: "Hadamard", desc: "<b>H (Hadamard).</b> |0⟩ → (|0⟩+|1⟩)/√2 and |1⟩ → (|0⟩−|1⟩)/√2. Apply it twice and you get back where you started." },
+    X:    { arity: 1, cat: "pauli", name: "Pauli-X",  desc: "<b>X (quantum NOT).</b> Swaps |0⟩ and |1⟩. A half turn about the x axis of the Bloch sphere." },
+    Y:    { arity: 1, cat: "pauli", name: "Pauli-Y",  desc: "<b>Y.</b> |0⟩ → i|1⟩ and |1⟩ → −i|0⟩. A half turn about the y axis." },
+    Z:    { arity: 1, cat: "pauli", name: "Pauli-Z",  desc: "<b>Z.</b> Leaves |0⟩ alone and flips the sign of |1⟩. A half turn about the z axis; it moves |+⟩ to |−⟩." },
+    S:    { arity: 1, cat: "phase", name: "S",        desc: "<b>S = √Z.</b> Multiplies |1⟩ by i. A quarter turn about the z axis." },
+    T:    { arity: 1, cat: "phase", name: "T",        desc: "<b>T = √S.</b> Multiplies |1⟩ by e<sup>iπ/4</sup>. An eighth turn about the z axis." },
+    CNOT: { arity: 2, name: "CNOT", desc: "<b>CNOT.</b> Flips the target (⊕) when the control (●) is |1⟩. Put an H on the control first and the two qubits become entangled." },
+    CZ:   { arity: 2, name: "CZ",   desc: "<b>CZ (controlled-Z).</b> Flips the sign of |11⟩ only. It is symmetric, so either qubit can be called the control." },
+    SWAP: { arity: 2, name: "SWAP", desc: "<b>SWAP.</b> Exchanges the states of two qubits. It equals three CNOTs in alternating directions." }
+  };
+  const DEFAULT_INFO = "Drag a gate onto a wire, or click it to add it to the end of q0. Hover over a gate to see what it does.";
+
+  // 2x2 matrices, row-major: [m00, m01, m10, m11], each [re, im]
+  const MAT = {
+    H: [[R2, 0], [R2, 0], [R2, 0], [-R2, 0]],
+    X: [[0, 0], [1, 0], [1, 0], [0, 0]],
+    Y: [[0, 0], [0, -1], [0, 1], [0, 0]],
+    Z: [[1, 0], [0, 0], [0, 0], [-1, 0]],
+    S: [[1, 0], [0, 0], [0, 0], [0, 1]],
+    T: [[1, 0], [0, 0], [0, 0], [R2, R2]]
+  };
+
+  const K_ = (s) => `<span class="k">${s}</span>`;
+  const EXAMPLES = [
+    { name: "Superposition: H on |0⟩", n: 1, init: [0], gates: [{ type: "H", col: 0, q: 0 }],
+      what: `One Hadamard gate turns ${K_("|0⟩")} into ${K_("|+⟩ = (|0⟩+|1⟩)/√2")}, an equal superposition of 0 and 1. If you measure it, you get 0 or 1 with 50% probability each.`,
+      watch: `On the Bloch sphere the arrow moves from the north pole (${K_("|0⟩")}) down to the +x axis on the equator. The bar chart goes from one 100% bar to two 50% bars.` },
+    { name: "H then H returns to |0⟩", n: 1, init: [0], gates: [{ type: "H", col: 0, q: 0 }, { type: "H", col: 1, q: 0 }],
+      what: `H is its own inverse, so two in a row cancel: ${K_("|0⟩ → |+⟩ → |0⟩")}. The two paths that lead to ${K_("|1⟩")} have opposite signs and cancel out. This is interference, and it is why a coin flipped twice is random but a qubit "flipped" twice by H is not.`,
+      watch: `Step through it. After step 1 the outcome is 50/50. After step 2 it is back to 100% ${K_("|0⟩")}, and the Bloch arrow returns to the north pole.` },
+    { name: "X then H gives |−⟩", n: 1, init: [0], gates: [{ type: "X", col: 0, q: 0 }, { type: "H", col: 1, q: 0 }],
+      what: `X flips ${K_("|0⟩")} to ${K_("|1⟩")}, then H sends ${K_("|1⟩")} to ${K_("|−⟩ = (|0⟩−|1⟩)/√2")}. Its measurement probabilities are 50/50, exactly like ${K_("|+⟩")}. The only difference is the minus sign, a relative phase.`,
+      watch: `The bar chart looks the same as the superposition example, but the Phase column shows 180° on ${K_("|1⟩")} and the Bloch arrow points to −x instead of +x. Compare it with the first example to show that probabilities do not tell the whole story.` },
+    { name: "H Z H equals X", n: 1, init: [0], gates: [{ type: "H", col: 0, q: 0 }, { type: "Z", col: 1, q: 0 }, { type: "H", col: 2, q: 0 }],
+      what: `Z only changes a phase, so on its own it has no visible effect on ${K_("|0⟩")}. Placed between two Hadamards it becomes a bit flip: ${K_("HZH = X")}. H swaps the roles of the z and x axes, so a turn about z becomes a turn about x.`,
+      watch: `Step through: ${K_("|0⟩ → |+⟩ → |−⟩ → |1⟩")}. The Z gate in the middle moves the arrow from +x to −x without changing the 50/50 probabilities. The final H turns that hidden phase into a definite 1.` },
+    { name: "Bell state |Φ+⟩", n: 2, init: [0, 0], gates: [{ type: "H", col: 0, q: 0 }, { type: "CNOT", col: 1, c: 0, t: 1 }],
+      what: `H puts q0 into superposition, then the CNOT copies q0's value into q1 in each branch. The result is ${K_("(|00⟩+|11⟩)/√2")}. Each qubit alone is a fair coin, but the two always agree when measured.`,
+      watch: `After step 1 only q0 has moved. After the CNOT both Bloch arrows shrink to the center: neither qubit has a state of its own, only the pair does. Only 00 and 11 ever appear in the bar chart.` },
+    { name: "Bell state |Ψ−⟩", n: 2, init: [0, 0], gates: [{ type: "H", col: 0, q: 0 }, { type: "X", col: 0, q: 1 }, { type: "CNOT", col: 1, c: 0, t: 1 }, { type: "Z", col: 2, q: 0 }],
+      what: `This builds the singlet ${K_("(|01⟩−|10⟩)/√2")}. X makes q1 start opposite to q0, H and CNOT entangle them, and Z on q0 adds the minus sign. The two qubits always give opposite results when measured.`,
+      watch: `Before the Z gate the state is ${K_("(|01⟩+|10⟩)/√2")}. The Z changes only the sign on one term, so the probabilities do not move, but the Phase column shows 180° on one row. It is one of the four Bell states, which differ from each other only by X and Z.` },
+    { name: "GHZ state, 3 qubits", n: 3, init: [0, 0, 0], gates: [{ type: "H", col: 0, q: 0 }, { type: "CNOT", col: 1, c: 0, t: 1 }, { type: "CNOT", col: 2, c: 1, t: 2 }],
+      what: `This extends the Bell state to three qubits with a chain of CNOTs, giving ${K_("(|000⟩+|111⟩)/√2")}. All three qubits always agree: measuring any one of them fixes the other two.`,
+      watch: `Each CNOT pulls one more qubit into the entanglement. After step 2, q0 and q1 are at the center and q2 is still at ${K_("|0⟩")}. After step 3 all three arrows are at the center. Only 000 and 111 appear.` },
+    { name: "Equal superposition, 3 qubits", n: 3, init: [0, 0, 0], gates: [{ type: "H", col: 0, q: 0 }, { type: "H", col: 0, q: 1 }, { type: "H", col: 0, q: 2 }],
+      what: `An H on every qubit gives all 8 basis states with the same amplitude, ${K_("1/(2√2)")}, so each outcome has probability 1/8. This is the usual first step of algorithms such as Deutsch–Jozsa and Grover's search.`,
+      watch: `All eight bars are equal. There is no entanglement: every Bloch arrow sits on the surface at +x, because the state is just ${K_("|+⟩|+⟩|+⟩")}. Compare it with the GHZ example, where the arrows shrink.` },
+    { name: "Phase kickback", n: 2, init: [0, 0], gates: [{ type: "X", col: 0, q: 1 }, { type: "H", col: 1, q: 0 }, { type: "H", col: 1, q: 1 }, { type: "CNOT", col: 2, c: 0, t: 1 }, { type: "H", col: 3, q: 0 }],
+      what: `q1 is prepared in ${K_("|−⟩")} and q0 in ${K_("|+⟩")}. A CNOT whose target is in ${K_("|−⟩")} leaves the target unchanged but puts a minus sign on the control's ${K_("|1⟩")} part, so q0 turns from ${K_("|+⟩")} into ${K_("|−⟩")}. The final H turns that into a definite ${K_("|1⟩")}. This is the core idea of Deutsch's algorithm.`,
+      watch: `At step 3 the CNOT does not move q1's arrow at all, yet q0's arrow jumps from +x to −x: the effect is "kicked back" onto the control. After step 4, q0 reads 1 with certainty.` },
+    { name: "SWAP built from three CNOTs", n: 2, init: [0, 0], gates: [{ type: "X", col: 0, q: 0 }, { type: "CNOT", col: 1, c: 0, t: 1 }, { type: "CNOT", col: 2, c: 1, t: 0 }, { type: "CNOT", col: 3, c: 0, t: 1 }],
+      what: `Three CNOTs in alternating directions exchange the states of two qubits, the same as one SWAP gate. X first sets q0 = 1 and q1 = 0 so there is something to swap.`,
+      watch: `Step through and follow the 1: ${K_("|10⟩ → |11⟩ → |01⟩ → |01⟩")}. At the end q0 = 0 and q1 = 1. Try replacing the three CNOTs with a single SWAP gate and check that the result is the same.` }
+  ];
+
+  let S = { n: 2, init: [0, 0], gates: [] };
+  let order = "q0first";
+  let nextId = 1;
+  let step = 0, followEnd = true;
+  let undoStack = [], redoStack = [];
+  let drag = null, lastClick = { id: null, t: 0 };
+  let playTimer = null, lastCols = MINCOLS;
+  let exampleIdx = null, exampleBase = null;
+
+  const $ = (id) => document.getElementById(id);
+  const svg = $("circuit");
+  const wrap = $("circuitWrap");
+  const ghost = $("ghost");
+
+  // ---------- state helpers ----------
+  const isTwo = (g) => GATES[g.type].arity === 2;
+  const spanOf = (g) => isTwo(g) ? [Math.min(g.c, g.t), Math.max(g.c, g.t)] : [g.q, g.q];
+  const numSteps = () => S.gates.length ? Math.max(...S.gates.map((g) => g.col)) + 1 : 0;
+  const colX = (c) => LEFT + c * COLW + COLW / 2;
+  const wireY = (q) => TOP + q * ROWH + ROWH / 2;
+
+  function conflicts(g, exId) {
+    const [a, b] = spanOf(g);
+    return S.gates.some((o) => {
+      if (o.id === exId || o.col !== g.col) return false;
+      const [c, d] = spanOf(o);
+      return a <= d && c <= b;
+    });
+  }
+
+  function sanitize(o) {
+    if (!o || typeof o !== "object") throw new Error("That text is not a circuit.");
+    const n = Number(o.n);
+    if (!Number.isInteger(n) || n < 1 || n > MAXQ) throw new Error("The number of qubits must be between 1 and " + MAXQ + ".");
+    const init = Array.from({ length: n }, (_, k) => (Array.isArray(o.init) && o.init[k] === 1 ? 1 : 0));
+    const out = { n, init, gates: [] };
+    const okQ = (v) => Number.isInteger(v) && v >= 0 && v < n;
+    for (const g of (Array.isArray(o.gates) ? o.gates : [])) {
+      if (!g || !GATES[g.type] || !Number.isInteger(g.col) || g.col < 0 || g.col > 200) continue;
+      let ng;
+      if (GATES[g.type].arity === 1) { if (!okQ(g.q)) continue; ng = { type: g.type, col: g.col, q: g.q }; }
+      else { if (!okQ(g.c) || !okQ(g.t) || g.c === g.t) continue; ng = { type: g.type, col: g.col, c: g.c, t: g.t }; }
+      const prev = S; S = out;
+      const bad = conflicts(ng, null);
+      S = prev;
+      if (bad) continue;
+      ng.id = nextId++;
+      out.gates.push(ng);
+    }
+    return out;
+  }
+
+  const snapshot = () => JSON.stringify({ n: S.n, init: S.init, gates: S.gates });
+  function restore(str) { S = sanitize(JSON.parse(str)); }
+  function commit(mutator) {
+    undoStack.push(snapshot());
+    if (undoStack.length > 300) undoStack.shift();
+    redoStack = [];
+    mutator();
+    changed();
+  }
+  function undo() { if (!undoStack.length) return; redoStack.push(snapshot()); restore(undoStack.pop()); changed(); }
+  function redo() { if (!redoStack.length) return; undoStack.push(snapshot()); restore(redoStack.pop()); changed(); }
+
+  function save() {
+    try { localStorage.setItem("qc-sandbox-v1", JSON.stringify({ circuit: exportObj(), order, exampleIdx, exampleBase })); } catch (e) { /* storage unavailable */ }
+  }
+  function exportObj() {
+    return { n: S.n, init: S.init.slice(), gates: S.gates.slice().sort((a, b) => a.col - b.col).map((g) => isTwo(g) ? { type: g.type, col: g.col, c: g.c, t: g.t } : { type: g.type, col: g.col, q: g.q }) };
+  }
+
+  function changed() {
+    const K = numSteps();
+    if (followEnd) step = K; else step = Math.min(step, K);
+    followEnd = step === K;
+    save();
+    renderAll();
+  }
+
+  // ---------- simulation ----------
+  function simulate(upTo) {
+    const n = S.n, N = 1 << n;
+    const re = new Float64Array(N), im = new Float64Array(N);
+    let idx = 0;
+    S.init.forEach((b, k) => { if (b) idx |= 1 << k; });
+    re[idx] = 1;
+    const gs = S.gates.filter((g) => g.col < upTo).sort((a, b) => a.col - b.col);
+    for (const g of gs) apply(re, im, g, N);
+    return { re, im };
+  }
+
+  function apply(re, im, g, N) {
+    if (!isTwo(g)) {
+      const m = MAT[g.type], bit = 1 << g.q;
+      const [a, b, c, d] = m;
+      for (let i = 0; i < N; i++) {
+        if (i & bit) continue;
+        const j = i | bit;
+        const ar = re[i], ai = im[i], br = re[j], bi = im[j];
+        re[i] = a[0] * ar - a[1] * ai + b[0] * br - b[1] * bi;
+        im[i] = a[0] * ai + a[1] * ar + b[0] * bi + b[1] * br;
+        re[j] = c[0] * ar - c[1] * ai + d[0] * br - d[1] * bi;
+        im[j] = c[0] * ai + c[1] * ar + d[0] * bi + d[1] * br;
+      }
+      return;
+    }
+    const cb = 1 << g.c, tb = 1 << g.t;
+    for (let i = 0; i < N; i++) {
+      if (g.type === "CNOT") {
+        if ((i & cb) && !(i & tb)) { const j = i | tb; swapAmp(re, im, i, j); }
+      } else if (g.type === "CZ") {
+        if ((i & cb) && (i & tb)) { re[i] = -re[i]; im[i] = -im[i]; }
+      } else if (g.type === "SWAP") {
+        if ((i & cb) && !(i & tb)) { const j = (i & ~cb) | tb; swapAmp(re, im, i, j); }
+      }
+    }
+  }
+  function swapAmp(re, im, i, j) {
+    let t = re[i]; re[i] = re[j]; re[j] = t;
+    t = im[i]; im[i] = im[j]; im[j] = t;
+  }
+
+  // ---------- labels & number formatting ----------
+  function bits(i) {
+    let s = "";
+    for (let k = 0; k < S.n; k++) s += (i >> k) & 1;
+    return order === "q0first" ? s : s.split("").reverse().join("");
+  }
+  const ket = (i) => "|" + bits(i) + "⟩";
+  function basisOrder() {
+    const N = 1 << S.n;
+    return Array.from({ length: N }, (_, i) => i).sort((a, b) => (bits(a) < bits(b) ? -1 : 1));
+  }
+  const MAGS = [
+    [1, "1"], [R2, "1/√2"], [0.5, "1/2"], [1 / (2 * Math.SQRT2), "1/(2√2)"], [0.25, "1/4"],
+    [1 / (4 * Math.SQRT2), "1/(4√2)"], [0.125, "1/8"], [Math.sqrt(3) / 2, "√3/2"], [1 / Math.sqrt(3), "1/√3"],
+    [Math.sqrt(2 / 3), "√(2/3)"], [0.75, "3/4"], [Math.sqrt(3) / (2 * Math.SQRT2), "√3/(2√2)"]
+  ];
+  function magStr(m) {
+    for (const [v, s] of MAGS) if (Math.abs(m - v) < 1e-6) return s;
+    return m.toFixed(3);
+  }
+  function phaseInfo(th) {
+    const k = th / (Math.PI / 4), kr = Math.round(k);
+    if (Math.abs(k - kr) < 1e-6) {
+      const m = ((kr % 8) + 8) % 8;
+      return [
+        { neg: false, unit: "" }, { neg: false, unit: "e<sup>iπ/4</sup>" }, { neg: false, unit: "i" }, { neg: false, unit: "e<sup>i3π/4</sup>" },
+        { neg: true, unit: "" }, { neg: false, unit: "e<sup>−i3π/4</sup>" }, { neg: true, unit: "i" }, { neg: false, unit: "e<sup>−iπ/4</sup>" }
+      ][m];
+    }
+    return { neg: false, unit: "e<sup>i·" + fmtSigned(th, 3) + "</sup>" };
+  }
+  const fmtSigned = (v, d) => { const s = (Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d); return s.replace("-", "−"); };
+  function complexStr(r, i) {
+    const z = (v) => Math.abs(v) < 5e-5;
+    if (z(r) && z(i)) return "0";
+    if (z(i)) return fmtSigned(r, 4);
+    if (z(r)) return fmtSigned(i, 4) + "i";
+    return fmtSigned(r, 4) + (i < 0 ? " − " : " + ") + Math.abs(i).toFixed(4) + "i";
+  }
+
+  // ---------- rendering: circuit ----------
+  function drawGate(g, extra) {
+    const x = colX(g.col);
+    const idAttr = g.id != null && !String(extra).includes("preview") ? ` data-id="${g.id}"` : "";
+    if (!isTwo(g)) {
+      const y = wireY(g.q), def = GATES[g.type];
+      return `<g class="gate ${extra}"${idAttr} data-end="s"><title>${def.name} on q${g.q}</title>` +
+        `<rect x="${x - 20}" y="${y - 20}" width="40" height="40" rx="7" fill="var(--g-${def.cat})"/>` +
+        `<text class="glabel" x="${x}" y="${y + 1}">${g.type}</text></g>`;
+    }
+    const yc = wireY(g.c), yt = wireY(g.t), y0 = Math.min(yc, yt), y1 = Math.max(yc, yt);
+    let s = `<g class="gate ${extra}"${idAttr}><title>${GATES[g.type].name}: q${g.c} and q${g.t}</title>`;
+    s += `<line class="g2line" x1="${x}" y1="${yc}" x2="${x}" y2="${yt}"/>`;
+    if (g.type === "CNOT") {
+      s += `<circle class="ctrl" cx="${x}" cy="${yc}" r="7"/>`;
+      s += `<circle class="tgt" cx="${x}" cy="${yt}" r="15"/>`;
+      s += `<line class="g2line" x1="${x - 15}" y1="${yt}" x2="${x + 15}" y2="${yt}"/><line class="g2line" x1="${x}" y1="${yt - 15}" x2="${x}" y2="${yt + 15}"/>`;
+    } else if (g.type === "CZ") {
+      s += `<circle class="ctrl" cx="${x}" cy="${yc}" r="7"/><circle class="ctrl" cx="${x}" cy="${yt}" r="7"/>`;
+    } else {
+      for (const y of [yc, yt]) s += `<path class="g2line" d="M${x - 9} ${y - 9} L${x + 9} ${y + 9} M${x + 9} ${y - 9} L${x - 9} ${y + 9}"/>`;
+    }
+    s += `<rect class="hit" data-end="both" x="${x - 9}" y="${y0}" width="18" height="${y1 - y0}"/>`;
+    s += `<circle class="hit" data-end="c" cx="${x}" cy="${yc}" r="20"/><circle class="hit" data-end="t" cx="${x}" cy="${yt}" r="20"/>`;
+    return s + "</g>";
+  }
+
+  function renderCircuit() {
+    const K = numSteps();
+    const cols = Math.max(MINCOLS, K + 2);
+    lastCols = cols;
+    const W = LEFT + cols * COLW + 24, H = TOP + S.n * ROWH + 8;
+    svg.setAttribute("width", W); svg.setAttribute("height", H); svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    let s = "";
+    for (let c = 0; c < cols; c++) {
+      const x = LEFT + c * COLW;
+      if (c % 2 === 0) s += `<rect class="band" x="${x}" y="${TOP - 4}" width="${COLW}" height="${S.n * ROWH + 8}" rx="4"/>`;
+      s += `<text class="colnum" x="${x + COLW / 2}" y="${TOP - 13}">${c + 1}</text>`;
+    }
+    for (let q = 0; q < S.n; q++) {
+      const y = wireY(q);
+      s += `<line class="wire" x1="${LEFT - 8}" y1="${y}" x2="${W - 12}" y2="${y}"/>`;
+      if (S.n > 1) s += `<g class="rm" data-rm="${q}" role="button" tabindex="0" aria-label="Remove qubit q${q}"><title>Remove q${q}</title><circle cx="15" cy="${y}" r="10"/><text x="15" y="${y + 1}">×</text></g>`;
+      s += `<text class="qlabel" x="32" y="${y}">q${q}</text>`;
+      s += `<g class="ket${S.init[q] ? " one" : ""}" data-ket="${q}" role="button" tabindex="0" aria-label="q${q} starts in |${S.init[q]}⟩. Press to toggle."><title>Click to start q${q} in |${1 - S.init[q]}⟩</title><rect x="62" y="${y - 15}" width="42" height="30" rx="6"/><text x="83" y="${y + 1}">|${S.init[q]}⟩</text></g>`;
+    }
+    if (K > 0 && step < K) {
+      const xm = LEFT + step * COLW;
+      s += `<line class="stepline" x1="${xm}" y1="${TOP - 6}" x2="${xm}" y2="${TOP + S.n * ROWH + 4}"/>`;
+    }
+    for (const g of S.gates) {
+      let cls = g.col >= step ? "future" : "";
+      if (drag && drag.active && drag.kind === "move" && drag.id === g.id) cls += " dragging";
+      s += drawGate(g, cls);
+    }
+    s += `<g id="dropLayer"></g>`;
+    svg.innerHTML = s;
+  }
+
+  function renderDrop(p) {
+    const layer = svg.querySelector("#dropLayer");
+    if (!layer) return;
+    if (!p) { layer.innerHTML = ""; return; }
+    const [a, b] = p.span, x = colX(p.col);
+    let s = `<rect class="${p.valid ? "drop-ok" : "drop-bad"}" x="${x - 27}" y="${wireY(a) - 27}" width="54" height="${(b - a) * ROWH + 54}" rx="9"/>`;
+    if (p.g) s += drawGate(p.g, "preview");
+    layer.innerHTML = s;
+  }
+
+  // ---------- drag and drop ----------
+  function cellAt(cx, cy) {
+    const r = svg.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+    const x = cx - r.left, y = cy - r.top;
+    const inside = cx >= wr.left && cx <= wr.right && x >= LEFT - 20 && x <= r.width && y >= TOP - 22 && y <= TOP + S.n * ROWH + 18;
+    const col = Math.min(lastCols - 1, Math.max(0, Math.floor((x - LEFT) / COLW)));
+    const q = Math.min(S.n - 1, Math.max(0, Math.floor((y - TOP) / ROWH)));
+    return { inside, col, q };
+  }
+
+  function propose(d, cell) {
+    if (!cell.inside) return null;
+    const { col, q } = cell;
+    let g;
+    if (d.kind === "new") {
+      if (GATES[d.type].arity === 1) g = { type: d.type, col, q };
+      else {
+        if (S.n < 2) return { g: null, valid: false, col, span: [q, q], reason: "Add a second qubit to use " + d.type + "." };
+        g = { type: d.type, col, c: q, t: q + 1 < S.n ? q + 1 : q - 1 };
+      }
+    } else {
+      const o = S.gates.find((x) => x.id === d.id);
+      if (!o) return null;
+      g = { ...o, col };
+      if (!isTwo(o)) g.q = q;
+      else if (d.end === "c") { g.c = q; if (q === o.t) g.t = o.c; }
+      else if (d.end === "t") { g.t = q; if (q === o.c) g.c = o.t; }
+      else {
+        const dq = q - d.grabQ;
+        g.c = o.c + dq; g.t = o.t + dq;
+        if (Math.min(g.c, g.t) < 0 || Math.max(g.c, g.t) >= S.n) {
+          const span = [Math.max(0, Math.min(g.c, g.t)), Math.min(S.n - 1, Math.max(g.c, g.t))];
+          return { g: null, valid: false, col, span };
+        }
+      }
+    }
+    const span = spanOf(g);
+    const valid = !conflicts(g, d.kind === "move" ? d.id : null);
+    return { g, valid, col, span, reason: valid ? "" : "That spot is taken. Drop the gate in an empty column." };
+  }
+
+  function startDrag(e, info) {
+    if (e.button !== undefined && e.button !== 0) return;
+    e.preventDefault();
+    drag = { ...info, x0: e.clientX, y0: e.clientY, active: false };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onCancel);
+  }
+  function endListeners() {
+    window.removeEventListener("pointermove", onMove);
+    window.removeEventListener("pointerup", onUp);
+    window.removeEventListener("pointercancel", onCancel);
+    document.body.classList.remove("is-dragging");
+    ghost.hidden = true;
+  }
+  function onMove(e) {
+    if (!drag) return;
+    if (!drag.active) {
+      if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 5) return;
+      drag.active = true;
+      stopPlay();
+      document.body.classList.add("is-dragging");
+      renderCircuit();
+    }
+    const cell = cellAt(e.clientX, e.clientY);
+    const p = propose(drag, cell);
+    renderDrop(p);
+    if (!cell.inside) {
+      ghost.hidden = false;
+      const label = drag.kind === "new" ? drag.type : S.gates.find((g) => g.id === drag.id)?.type;
+      ghost.textContent = drag.kind === "move" ? "Release to remove " + label : label;
+      ghost.classList.toggle("del", drag.kind === "move");
+      ghost.style.left = e.clientX + 14 + "px";
+      ghost.style.top = e.clientY + 14 + "px";
+    } else ghost.hidden = true;
+    // keep the drop target visible when the circuit scrolls sideways
+    const wr = wrap.getBoundingClientRect();
+    if (e.clientY > wr.top && e.clientY < wr.bottom) {
+      if (e.clientX > wr.right - 30) wrap.scrollLeft += 12;
+      else if (e.clientX < wr.left + 30 && e.clientX > wr.left) wrap.scrollLeft -= 12;
+    }
+  }
+  function onUp(e) {
+    const d = drag; drag = null;
+    endListeners();
+    if (d && d.active) showInfo(null);
+    if (!d) return;
+    if (!d.active) {
+      if (d.kind === "new") addAtEnd(d.type);
+      else handleGateClick(d.id);
+      return;
+    }
+    const cell = cellAt(e.clientX, e.clientY);
+    const p = propose(d, cell);
+    if (!cell.inside) {
+      if (d.kind === "move") commit(() => { S.gates = S.gates.filter((g) => g.id !== d.id); });
+      else renderCircuit();
+      return;
+    }
+    if (p && p.valid && p.g) {
+      commit(() => {
+        if (d.kind === "new") { p.g.id = nextId++; S.gates.push(p.g); }
+        else { const i = S.gates.findIndex((g) => g.id === d.id); S.gates[i] = p.g; }
+      });
+    } else {
+      renderCircuit();
+      if (p && p.reason) toast(p.reason);
+    }
+  }
+  function onCancel() { drag = null; endListeners(); renderCircuit(); }
+
+  function handleGateClick(id) {
+    const g = S.gates.find((x) => x.id === id);
+    if (!g) return;
+    const now = Date.now();
+    if (lastClick.id === id && now - lastClick.t < 420) {
+      lastClick = { id: null, t: 0 };
+      commit(() => { S.gates = S.gates.filter((x) => x.id !== id); });
+      return;
+    }
+    lastClick = { id, t: now };
+  }
+
+  function addAtEnd(type) {
+    let g;
+    if (GATES[type].arity === 1) g = { type, q: 0 };
+    else {
+      if (S.n < 2) { toast("Add a second qubit to use " + type + "."); return; }
+      g = { type, c: 0, t: 1 };
+    }
+    g.col = 0;
+    const [a, b] = spanOf(g);
+    for (const o of S.gates) {
+      const [c, d] = spanOf(o);
+      if (a <= d && c <= b) g.col = Math.max(g.col, o.col + 1);
+    }
+    commit(() => { g.id = nextId++; S.gates.push(g); });
+  }
+
+  function removeQubit(k) {
+    if (S.n <= 1) return;
+    commit(() => {
+      S.gates = S.gates.filter((g) => isTwo(g) ? g.c !== k && g.t !== k : g.q !== k);
+      for (const g of S.gates) {
+        if (isTwo(g)) { if (g.c > k) g.c--; if (g.t > k) g.t--; }
+        else if (g.q > k) g.q--;
+      }
+      S.init.splice(k, 1);
+      S.n--;
+    });
+  }
+  function addQubit() {
+    if (S.n >= MAXQ) { toast("This sandbox holds up to " + MAXQ + " qubits."); return; }
+    commit(() => { S.n++; S.init.push(0); });
+  }
+
+  // ---------- rendering: results ----------
+  function renderDirac(re, im) {
+    const terms = [];
+    for (const i of basisOrder()) {
+      const m = Math.hypot(re[i], im[i]);
+      if (m > 1e-9) terms.push({ i, m, th: Math.atan2(im[i], re[i]) });
+    }
+    const allEq = terms.length > 1 && terms.every((t) => Math.abs(t.m - terms[0].m) < 1e-6);
+    const LIMIT = 16;
+    const shown = terms.length > LIMIT ? terms.slice(0, 8) : terms;
+    let body = "";
+    shown.forEach((t, idx) => {
+      const ph = phaseInfo(t.th);
+      let coef;
+      if (allEq) coef = ph.unit;
+      else {
+        const ms = magStr(t.m);
+        if (ms === "1") coef = ph.unit;
+        else if (ph.unit === "i" && ms.startsWith("1/")) coef = "i" + ms.slice(1);
+        else coef = ms + (ph.unit ? " " + ph.unit : "");
+      }
+      const prefix = idx === 0 ? (ph.neg ? "−" : "") : (ph.neg ? " − " : " + ");
+      body += prefix + coef + ket(t.i);
+    });
+    if (terms.length > LIMIT) body += ` + … <span style="color:var(--muted)">(${terms.length} terms)</span>`;
+    const lead = allEq ? magStr(terms[0].m) + " ( " + body + " )" : body;
+    $("dirac").innerHTML = `<span class="psi">|ψ⟩</span> = ${lead}`;
+  }
+
+  const AZ = -35 * Math.PI / 180, EL = 18 * Math.PI / 180;
+  function proj(x, y, z) {
+    const x1 = x * Math.cos(AZ) - y * Math.sin(AZ);
+    const y1 = x * Math.sin(AZ) + y * Math.cos(AZ);
+    return [y1, -(-x1 * Math.sin(EL) + z * Math.cos(EL)), x1 * Math.cos(EL) + z * Math.sin(EL)];
+  }
+  const NAMED = [[0, 0, 1, "|0⟩"], [0, 0, -1, "|1⟩"], [1, 0, 0, "|+⟩"], [-1, 0, 0, "|−⟩"], [0, 1, 0, "|+i⟩"], [0, -1, 0, "|−i⟩"]];
+
+  function blochSVG(bx, by, bz, q) {
+    const R = 62, cx = 92, cy = 94;
+    const P = (x, y, z) => { const p = proj(x, y, z); return [cx + R * p[0], cy + R * p[1], p[2]]; };
+    let s = `<svg width="184" height="190" viewBox="0 0 184 190" role="img" aria-label="Bloch sphere for q${q}: x ${bx.toFixed(2)}, y ${by.toFixed(2)}, z ${bz.toFixed(2)}">`;
+    s += `<circle class="sph-ring" cx="${cx}" cy="${cy}" r="${R}"/>`;
+    // equator (front solid, back dashed) and the x–z meridian
+    const ring = (fn) => {
+      const front = [], back = [];
+      let cur = null, curFront = null, prev = null;
+      for (let k = 0; k <= 72; k++) {
+        const t = (k / 72) * 2 * Math.PI, [px, py, d] = fn(t), f = d >= 0;
+        if (f !== curFront) { cur = prev ? [prev] : []; (f ? front : back).push(cur); curFront = f; }
+        cur.push([px, py]); prev = [px, py];
+      }
+      const path = (segs) => segs.filter((s) => s.length > 1).map((s) => "M" + s.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L")).join(" ");
+      return [path(front), path(back)];
+    };
+    const [ef, eb] = ring((t) => P(Math.cos(t), Math.sin(t), 0));
+    const [mf, mb] = ring((t) => P(Math.cos(t), 0, Math.sin(t)));
+    s += `<path class="sph-back" d="${eb}"/><path class="sph-back" d="${mb}"/>`;
+    s += `<path class="sph-line" d="${ef}"/><path class="sph-line" d="${mf}" style="opacity:.5"/>`;
+    // axes
+    const ax = [[1, 0, 0, "x"], [0, 1, 0, "y"], [0, 0, 1, "|0⟩"], [0, 0, -1, "|1⟩"]];
+    for (const [x, y, z] of [[1, 0, 0], [0, 1, 0], [0, 0, 1]]) {
+      const a = P(-x, -y, -z), b = P(x, y, z);
+      s += `<line class="sph-axis" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`;
+    }
+    for (const [x, y, z, l] of ax) { const p = P(x * 1.22, y * 1.2, z * 1.2); s += `<text class="sph-label" x="${p[0]}" y="${p[1]}">${l}</text>`; }
+    // state vector
+    const o = P(0, 0, 0), tip = P(bx, by, bz), sh = P(bx, by, 0);
+    const len = Math.hypot(bx, by, bz);
+    if (Math.hypot(bx, by) > 0.02) s += `<line class="sph-shadow" x1="${tip[0]}" y1="${tip[1]}" x2="${sh[0]}" y2="${sh[1]}"/><line class="sph-shadow" x1="${o[0]}" y1="${o[1]}" x2="${sh[0]}" y2="${sh[1]}"/>`;
+    if (len > 0.02) s += `<line class="sph-vec" x1="${o[0]}" y1="${o[1]}" x2="${tip[0]}" y2="${tip[1]}"/>`;
+    s += `<circle class="sph-tip" cx="${tip[0]}" cy="${tip[1]}" r="${len > 0.02 ? 5 : 4}"/>`;
+    return s + "</svg>";
+  }
+
+  function qubitStats(re, im) {
+    const N = 1 << S.n, out = [];
+    for (let q = 0; q < S.n; q++) {
+      const b = 1 << q;
+      let p0 = 0, p1 = 0, r01 = 0, i01 = 0;
+      for (let i = 0; i < N; i++) {
+        if (i & b) continue;
+        const j = i | b;
+        p0 += re[i] * re[i] + im[i] * im[i];
+        p1 += re[j] * re[j] + im[j] * im[j];
+        r01 += re[i] * re[j] + im[i] * im[j];
+        i01 += im[i] * re[j] - re[i] * im[j];
+      }
+      const x = 2 * r01, y = -2 * i01, z = p0 - p1, len = Math.hypot(x, y, z);
+      let kind, label;
+      if (len > 0.999) {
+        const nm = NAMED.find((v) => v[0] * x + v[1] * y + v[2] * z > 0.9999);
+        kind = "pure";
+        label = nm ? nm[3] : "Superposition";
+      } else if (len < 0.001) { kind = "ent"; label = "Entangled: 50/50 mix"; }
+      else { kind = "ent"; label = "Partly entangled"; }
+      out.push({ q, p0, p1, x, y, z, len, kind, label });
+    }
+    return out;
+  }
+  const pct = (p) => { const v = +(p * 100).toFixed(1); return (Math.abs(v) < 0.05 ? 0 : v) + "%"; };
+  const splitBar = (p0, p1) => `<span class="pq-bar"><span class="pq-0" style="width:${(p0 * 100).toFixed(2)}%"></span><span class="pq-1" style="width:${(p1 * 100).toFixed(2)}%"></span></span>`;
+
+  function renderBloch(stats) {
+    $("bloch").innerHTML = stats.map((s) => {
+      const chip = s.kind === "pure"
+        ? `<span class="chip pure">${s.label.startsWith("|") ? "State " + s.label : "Pure state"}</span>`
+        : `<span class="chip ent">${s.len < 0.001 ? "Fully entangled: 50/50 mix" : "Partly entangled"}</span>`;
+      return `<div class="bloch-card"><span class="qname">q${s.q}</span>${blochSVG(s.x, s.y, s.z, s.q)}` +
+        `<span class="coords">x ${fmtSigned(s.x, 2)}  y ${fmtSigned(s.y, 2)}  z ${fmtSigned(s.z, 2)}</span>` +
+        `<span class="pq" aria-label="Probability of measuring 0 is ${s.p0.toFixed(3)}, of measuring 1 is ${s.p1.toFixed(3)}">` +
+        splitBar(s.p0, s.p1) +
+        `<span class="coords">P(0) ${s.p0.toFixed(3)} · P(1) ${s.p1.toFixed(3)}</span></span>${chip}</div>`;
+    }).join("");
+  }
+
+  function renderQubitSummary(stats) {
+    $("qsumTitle").textContent = S.n === 1 ? "The qubit" : `Each qubit (${S.n})`;
+    const rows = stats.map((s) =>
+      `<tr><td class="mono">q${s.q}</td>` +
+      `<td>${splitBar(s.p0, s.p1)}<span class="mono">${pct(s.p0)} · ${pct(s.p1)}</span></td>` +
+      `<td><span class="chip ${s.kind}">${s.label}</span></td></tr>`).join("");
+    $("qsum").innerHTML = `<table class="qtable"><thead><tr><th scope="col">Qubit</th><th scope="col">P(0) · P(1)</th><th scope="col">On its own</th></tr></thead><tbody>${rows}</tbody></table>`;
+  }
+
+  function renderChart(re, im) {
+    const host = $("chart");
+    const N = 1 << S.n, ord = basisOrder();
+    const W = Math.max(300, Math.floor(host.clientWidth || 520));
+    const rot = N > 8;
+    const padL = 40, padR = 8, padT = 18, padB = rot ? 26 + 8.2 * S.n : 30;
+    const H = 230 + (rot ? 8 * S.n : 0);
+    const ph = H - padT - padB, bw = (W - padL - padR) / N;
+    const yOf = (v) => padT + (1 - v) * ph;
+    let s = `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Bar chart of measurement probabilities">`;
+    for (const v of [0, 0.25, 0.5, 0.75, 1]) {
+      s += `<line class="chart-grid" x1="${padL}" x2="${W - padR}" y1="${yOf(v)}" y2="${yOf(v)}"/>`;
+      s += `<text x="${padL - 6}" y="${yOf(v) + 4}" text-anchor="end">${v}</text>`;
+    }
+    ord.forEach((i, k) => {
+      const p = re[i] * re[i] + im[i] * im[i];
+      const x = padL + k * bw, w = Math.max(1, bw * 0.68), xc = x + bw / 2;
+      if (p > 1e-9) s += `<rect class="chart-bar" x="${xc - w / 2}" y="${yOf(p)}" width="${w}" height="${Math.max(1, p * ph)}" rx="${Math.min(3, w / 4)}"><title>${ket(i)}: ${(p * 100).toFixed(2)}%</title></rect>`;
+      if (N <= 16 && p > 5e-4) s += `<text class="chart-val" x="${xc}" y="${yOf(p) - 5}" text-anchor="middle">${+(p * 100).toFixed(1)}%</text>`;
+      if (!rot) s += `<text x="${xc}" y="${H - padB + 18}" text-anchor="middle">${ket(i)}</text>`;
+      else s += `<text x="${xc + 3}" y="${H - padB + 8}" text-anchor="end" transform="rotate(-90 ${xc + 3} ${H - padB + 8})" style="font-size:${N > 32 ? 9 : 10}px">${ket(i)}</text>`;
+    });
+    host.innerHTML = s + "</svg>";
+  }
+
+  function renderTable(re, im) {
+    const hide = $("hideZero").checked;
+    const N = 1 << S.n;
+    let rows = "", hidden = 0;
+    for (const i of basisOrder()) {
+      const m = Math.hypot(re[i], im[i]), p = m * m;
+      if (hide && m < 1e-9) { hidden++; continue; }
+      const th = Math.atan2(im[i], re[i]);
+      let deg = Math.round(th * 180 / Math.PI);
+      if (deg === -180) deg = 180;
+      const r = 11;
+      const glyph = m < 1e-9 ? "—" :
+        `<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle class="o" cx="13" cy="13" r="${r}"/><circle class="f" cx="13" cy="13" r="${(r * m).toFixed(2)}"/><line x1="13" y1="13" x2="${(13 + r * Math.cos(th)).toFixed(2)}" y2="${(13 - r * Math.sin(th)).toFixed(2)}"/></svg>${String(deg).replace("-", "−")}°`;
+      rows += `<tr><td class="mono">${ket(i)}</td><td class="mono">${complexStr(re[i], im[i])}</td>` +
+        `<td><span class="pbar"><span style="width:${(p * 100).toFixed(2)}%"></span></span><span class="mono">${(p * 100).toFixed(1)}%</span></td>` +
+        `<td><span class="phase-cell">${glyph}</span></td></tr>`;
+    }
+    $("table").innerHTML = `<table><thead><tr><th scope="col">Basis</th><th scope="col">Amplitude</th><th scope="col">Probability</th><th scope="col">Phase</th></tr></thead><tbody>${rows}</tbody></table>`;
+    $("allTitle").textContent = S.n === 1 ? "Basis states" : `All ${S.n} qubits together`;
+    const qs = Array.from({ length: S.n }, (_, k) => "q" + k);
+    if (order === "q0last") qs.reverse();
+    let note = S.n > 1 ? `Each digit is one qubit, left to right: ${qs.join(", ")}.` : "";
+    if (hidden) note += ` Showing ${N - hidden} of ${N} basis states; ${hidden} with zero amplitude are hidden.`;
+    $("rowNote").textContent = note.trim();
+  }
+
+  function renderStepper() {
+    const K = numSteps(), r = $("step");
+    r.max = K; r.value = step;
+    $("stepLabel").textContent = K === 0 ? "No gates yet" : step === 0 ? "Initial state, before any gate" : step === K ? (K === 1 ? "After 1 step" : `After all ${K} steps`) : `After step ${step} of ${K}`;
+    $("stStart").disabled = $("stBack").disabled = step === 0;
+    $("stNext").disabled = $("stEnd").disabled = step >= K;
+    $("stPlay").disabled = K === 0;
+    $("stateHeading").textContent = K === 0 ? "State" : step === K ? "State at the end of the circuit" : step === 0 ? "Initial state" : `State after step ${step}`;
+    $("ampNote").textContent = K === 0 || step === K ? "For the state at the end of the circuit." : step === 0 ? "For the initial state, before any gate." : `For the state after step ${step} of ${K}.`;
+    $("undoBtn").disabled = !undoStack.length;
+    $("redoBtn").disabled = !redoStack.length;
+    $("addQ").disabled = S.n >= MAXQ;
+  }
+
+  function renderResults() {
+    const { re, im } = simulate(step);
+    const stats = qubitStats(re, im);
+    renderDirac(re, im);
+    renderQubitSummary(stats);
+    renderBloch(stats);
+    renderChart(re, im);
+    renderTable(re, im);
+  }
+  function renderExample() {
+    const panel = $("exPanel");
+    if (exampleIdx == null || !EXAMPLES[exampleIdx]) { panel.hidden = true; return; }
+    const ex = EXAMPLES[exampleIdx];
+    panel.hidden = false;
+    $("exTitle").textContent = ex.name;
+    $("exWhat").innerHTML = ex.what;
+    $("exWatch").innerHTML = ex.watch;
+    const notes = [];
+    if (JSON.stringify(exportObj()) !== exampleBase) notes.push("You have changed this circuit since loading the example, so these notes may no longer match it.");
+    if (order === "q0last" && ex.n > 1) notes.push("The kets in these notes put q0 on the left (textbook order), while the results below currently put q0 on the right.");
+    $("exNote").textContent = notes.join(" ");
+  }
+  function hideExample() { exampleIdx = null; exampleBase = null; save(); renderExample(); }
+
+  function renderAll() { renderCircuit(); renderStepper(); renderResults(); renderExample(); }
+
+  // ---------- small UI helpers ----------
+  let toastTimer;
+  function toast(msg) {
+    const t = $("toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("show"), 2400);
+  }
+  function showInfo(type) { $("gateInfo").innerHTML = type ? GATES[type].desc : DEFAULT_INFO; }
+
+  function setStep(v) {
+    const K = numSteps();
+    step = Math.max(0, Math.min(K, v));
+    followEnd = step === K;
+    renderCircuit(); renderStepper(); renderResults();
+  }
+  function stopPlay() { if (playTimer) { clearInterval(playTimer); playTimer = null; $("stPlay").textContent = "Play"; } }
+  function togglePlay() {
+    if (playTimer) { stopPlay(); return; }
+    const K = numSteps();
+    if (!K) return;
+    if (step >= K) setStep(0);
+    $("stPlay").textContent = "Pause";
+    playTimer = setInterval(() => {
+      if (step >= numSteps()) { stopPlay(); return; }
+      setStep(step + 1);
+      if (step >= numSteps()) stopPlay();
+    }, 900);
+  }
+
+  function loadCircuit(obj) {
+    stopPlay();
+    const clean = sanitize(obj);
+    commit(() => { S = clean; followEnd = true; });
+  }
+
+  // ---------- wiring ----------
+  document.querySelectorAll(".pgate").forEach((btn) => {
+    const type = btn.dataset.type;
+    btn.addEventListener("pointerdown", (e) => startDrag(e, { kind: "new", type }));
+    btn.addEventListener("click", (e) => { if (e.detail === 0) addAtEnd(type); });
+    btn.addEventListener("mouseenter", () => showInfo(type));
+    btn.addEventListener("mouseleave", () => showInfo(null));
+    btn.addEventListener("focus", () => showInfo(type));
+    btn.addEventListener("blur", () => showInfo(null));
+  });
+
+  svg.addEventListener("pointerdown", (e) => {
+    const gEl = e.target.closest(".gate[data-id]");
+    if (!gEl) return;
+    const id = Number(gEl.dataset.id);
+    const endEl = e.target.closest("[data-end]");
+    const end = endEl ? endEl.dataset.end : "s";
+    startDrag(e, { kind: "move", id, end, grabQ: cellAt(e.clientX, e.clientY).q });
+  });
+  function svgActivate(target) {
+    const k = target.closest("[data-ket]");
+    if (k) { const q = Number(k.dataset.ket); commit(() => { S.init[q] ^= 1; }); return true; }
+    const r = target.closest("[data-rm]");
+    if (r) { removeQubit(Number(r.dataset.rm)); return true; }
+    return false;
+  }
+  // gates already on the circuit: describe them only while hovered
+  svg.addEventListener("pointerover", (e) => {
+    if (drag && drag.active) return;
+    const gEl = e.target.closest(".gate[data-id]");
+    const g = gEl && S.gates.find((x) => x.id === Number(gEl.dataset.id));
+    showInfo(g ? g.type : null);
+  });
+  svg.addEventListener("pointerleave", () => { if (!(drag && drag.active)) showInfo(null); });
+  svg.addEventListener("click", (e) => svgActivate(e.target));
+  svg.addEventListener("keydown", (e) => {
+    if ((e.key === "Enter" || e.key === " ") && svgActivate(e.target)) e.preventDefault();
+  });
+
+  $("addQ").addEventListener("click", addQubit);
+  $("undoBtn").addEventListener("click", undo);
+  $("redoBtn").addEventListener("click", redo);
+  $("clearBtn").addEventListener("click", () => {
+    stopPlay();
+    exampleIdx = null; exampleBase = null;
+    if (S.gates.length || S.n > 1 || S.init[0]) commit(() => { S = { n: 1, init: [0], gates: [] }; followEnd = true; });
+    else { save(); renderExample(); }
+    showInfo(null);
+  });
+  $("hideZero").addEventListener("change", renderResults);
+  document.querySelectorAll('input[name="order"]').forEach((r) => r.addEventListener("change", () => { order = r.value; save(); renderResults(); renderExample(); }));
+  $("exClose").addEventListener("click", hideExample);
+  $("exWalk").addEventListener("click", () => { stopPlay(); setStep(0); togglePlay(); });
+
+  $("step").addEventListener("input", (e) => { stopPlay(); setStep(Number(e.target.value)); });
+  $("stStart").addEventListener("click", () => { stopPlay(); setStep(0); });
+  $("stBack").addEventListener("click", () => { stopPlay(); setStep(step - 1); });
+  $("stNext").addEventListener("click", () => { stopPlay(); setStep(step + 1); });
+  $("stEnd").addEventListener("click", () => { stopPlay(); setStep(numSteps()); });
+  $("stPlay").addEventListener("click", togglePlay);
+
+  const exSel = $("examples");
+  EXAMPLES.forEach((ex, i) => { const o = document.createElement("option"); o.value = i; o.textContent = ex.name; exSel.appendChild(o); });
+  exSel.addEventListener("change", () => {
+    if (exSel.value === "") return;
+    const idx = Number(exSel.value), ex = EXAMPLES[idx];
+    loadCircuit(ex);
+    exampleIdx = idx;
+    exampleBase = JSON.stringify(exportObj());
+    save();
+    renderExample();
+    exSel.value = "";
+    $("exPanel").scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
+
+  const dlg = $("io");
+  $("ioBtn").addEventListener("click", () => {
+    $("ioText").value = JSON.stringify(exportObj(), null, 1);
+    $("ioMsg").textContent = "";
+    try { dlg.showModal(); } catch (e) { dlg.setAttribute("open", ""); }
+  });
+  $("ioClose").addEventListener("click", () => dlg.close());
+  $("ioCopy").addEventListener("click", async () => {
+    const ta = $("ioText");
+    try { await navigator.clipboard.writeText(ta.value); $("ioMsg").textContent = "Copied to the clipboard."; }
+    catch (e) { ta.select(); $("ioMsg").textContent = "Copy was blocked here. The text is selected: press Ctrl+C or ⌘C."; }
+  });
+  $("ioLoad").addEventListener("click", () => {
+    try { loadCircuit(JSON.parse($("ioText").value)); dlg.close(); toast("Circuit loaded."); }
+    catch (e) { $("ioMsg").textContent = "Could not load: " + (e instanceof SyntaxError ? "the text is not valid JSON." : e.message); }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.target.closest && e.target.closest("textarea, input[type=text]")) return;
+    const mod = e.ctrlKey || e.metaKey;
+    if (mod && e.key.toLowerCase() === "z") { e.preventDefault(); e.shiftKey ? redo() : undo(); }
+    else if (mod && e.key.toLowerCase() === "y") { e.preventDefault(); redo(); }
+  });
+
+  let rz;
+  window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { const { re, im } = simulate(step); renderChart(re, im); }, 120); });
+
+  // ---------- start ----------
+  let loaded = false;
+  try {
+    const saved = JSON.parse(localStorage.getItem("qc-sandbox-v1") || "null");
+    if (saved && saved.circuit) {
+      S = sanitize(saved.circuit);
+      if (saved.order === "q0last") { order = "q0last"; $("orderQiskit").checked = true; }
+      if (Number.isInteger(saved.exampleIdx) && EXAMPLES[saved.exampleIdx] && typeof saved.exampleBase === "string") {
+        exampleIdx = saved.exampleIdx; exampleBase = saved.exampleBase;
+      }
+      loaded = true;
+    }
+  } catch (e) { /* ignore */ }
+  if (!loaded) {
+    S = sanitize(EXAMPLES[4]);
+    exampleIdx = 4;
+    exampleBase = JSON.stringify(exportObj());
+  }
+  step = numSteps(); followEnd = true;
+  showInfo(null);
+  renderAll();
+})();
+</script>
+</body>
+</html>
