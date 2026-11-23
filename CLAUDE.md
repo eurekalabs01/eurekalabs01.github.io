@@ -85,6 +85,8 @@ Both pages share the same `utils.js` — any tag-rendering logic belongs there, 
 
 3. `git add data.js labs/{id}/` and commit + push
 
+Interactive labs can skip `pdf` and use two optional fields instead (see `quantum-circuit-sandbox`): `interactive: { heading, blurb, url, label }` renders a launch button for a standalone HTML page in the lab folder, and `exercises: [{ title, task, check }]` renders a numbered task list, with `check` shown as "Look for". The `note` field displays under whichever button exists.
+
 To hide a lab without deleting its data, add `hidden: true` to its entry — it disappears from the catalog and its detail page renders the not-found state (with noindex). Also remove its URL from `sitemap.xml`.
 
 Cover images display at their natural aspect ratio on the lab detail page — never cropped or upscaled, capped at 480px tall (see `.lab-image` in `style.css`). Any reasonable image works; landscape around 2:1 to 3:1 fills the width best. Keep files under ~500 KB when possible.

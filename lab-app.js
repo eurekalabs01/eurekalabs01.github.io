@@ -81,7 +81,19 @@ function renderLabPage() {
   if (lab.estimatedTime) metaItems.push('<div class="lab-meta-item"><span class="meta-label">Estimated time</span><span>' + esc(lab.estimatedTime) + '</span></div>');
   const metaHTML = metaItems.length > 0 ? '<div class="lab-meta">' + metaItems.join("") + '</div>' : "";
 
-  // PDF download button + optional note
+  // Primary action: interactive tool and/or PDF manual, followed by the optional note
+  const noteHTML = lab.note ? '<p class="lab-note">' + esc(lab.note) + '</p>' : '';
+  const interactiveHTML = lab.interactive
+    ? '<div class="lab-section">' +
+        '<h2>' + esc(lab.interactive.heading || "Interactive lab") + '</h2>' +
+        (lab.interactive.blurb ? '<p>' + esc(lab.interactive.blurb) + '</p>' : '') +
+        '<a href="' + esc(lab.interactive.url) + '" target="_blank" rel="noopener" class="btn-primary lab-launch">' +
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3l8 5-8 5z"/></svg>' +
+          esc(lab.interactive.label || "Launch") +
+        '</a>' +
+        (lab.pdf ? '' : noteHTML) +
+      '</div>'
+    : "";
   const pdfHTML = lab.pdf
     ? '<div class="lab-section">' +
         '<h2>Lab manual</h2>' +
@@ -89,7 +101,23 @@ function renderLabPage() {
           '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 14h10M8 2v9M4 7l4 4 4-4"/></svg>' +
           'View / Download PDF' +
         '</a>' +
-        (lab.note ? '<p class="lab-note">' + esc(lab.note) + '</p>' : '') +
+        noteHTML +
+      '</div>'
+    : "";
+
+  // Exercises (optional): numbered tasks, each with an optional "what to look for" check
+  const exercisesHTML = (lab.exercises && lab.exercises.length > 0)
+    ? '<div class="lab-section">' +
+        '<h2>Exercises</h2>' +
+        '<ol class="exercise-list">' +
+          lab.exercises.map(function(ex) {
+            return '<li>' +
+              '<h3>' + esc(ex.title) + '</h3>' +
+              '<p>' + esc(ex.task) + '</p>' +
+              (ex.check ? '<p class="exercise-check"><span>Look for</span>' + esc(ex.check) + '</p>' : '') +
+            '</li>';
+          }).join("") +
+        '</ol>' +
       '</div>'
     : "";
 
@@ -133,7 +161,9 @@ function renderLabPage() {
       '<h2>Overview</h2>' +
       '<p>' + esc(lab.description) + '</p>' +
     '</div>' +
+    interactiveHTML +
     pdfHTML +
+    exercisesHTML +
     resourcesHTML;
 }
 

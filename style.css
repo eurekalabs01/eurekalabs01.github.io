@@ -152,6 +152,14 @@ div.team-avatar { display: flex; align-items: center; justify-content: center; f
 .lab-teaser { font-family: var(--font-serif); font-size: 1.1rem; font-style: italic; color: var(--color-text-mid); margin-bottom: 2rem; line-height: 1.6; }
 .lab-note { margin-top: 1rem; font-size: 0.93rem; color: var(--color-text-muted); line-height: 1.65; background: var(--color-surface-alt); border-left: 3px solid var(--color-forest); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.75rem 1rem; }
 .lab-section { margin-bottom: 2.5rem; }
+.lab-section p + .lab-launch { margin-top: 1rem; }
+.exercise-list { list-style: none; counter-reset: ex; display: grid; gap: 1rem; padding: 0; margin: 0; }
+.exercise-list li { counter-increment: ex; position: relative; padding: 1rem 1.25rem 1rem 3.5rem; background: var(--color-surface); border: var(--border-subtle); border-radius: var(--radius); }
+.exercise-list li::before { content: counter(ex); position: absolute; left: 1.1rem; top: 1rem; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--color-forest); color: #fff; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+.exercise-list h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; margin-bottom: 0.35rem; }
+.exercise-list p { font-size: 0.96rem; line-height: 1.7; }
+.exercise-list .exercise-check { margin-top: 0.5rem; color: var(--color-text-muted); font-size: 0.9rem; }
+.exercise-check span { display: inline-block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--color-forest); margin-right: 0.5rem; }
 .lab-section h2 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.75rem; color: var(--color-text); }
 .lab-section p { color: var(--color-text-mid); font-size: 1rem; line-height: 1.85; }
 .resources-list { list-style: none; padding: 0; }
