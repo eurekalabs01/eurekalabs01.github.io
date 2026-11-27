@@ -55,12 +55,12 @@ const TEAM = [
   { group: "former", name: "Shawn Fahimi",       role: "Research Assistant", affiliation: "Software Engineer, J.P. Morgan Chase",     image: "team/shawn.jpg",  url: "https://www.linkedin.com/in/shawn-fahimi-0a487a177/" },
   { group: "former", name: "Riley Durbin",       role: "Research Assistant", affiliation: "Software Engineer, Texas Stock Exchange", image: "team/riley.jpg", url: "https://www.linkedin.com/in/rdurb/" },
   { group: "former", name: "Emma Beebe",         role: "Research Assistant", affiliation: "Software Engineer, AWS",                   image: "team/emma.jpg",  url: "https://www.linkedin.com/in/e-bee/" },
+  { group: "former", name: "Jing Jing",          role: "Research Assistant", affiliation: "Miami University",                         image: "team/jingjing.jpg", url: "https://www.linkedin.com/in/jingjing666888" },
   { group: "ra", name: "Qingwen Liu",          role: "Research Assistant", affiliation: "Miami University", image: "team/qingwen.jpg",    url: "https://www.linkedin.com/in/qingwenliu/" },
   { group: "ra", name: "Rongrong Qian",        role: "Research Assistant", affiliation: "Miami University", image: "team/rongrong.jpg",   url: "https://www.linkedin.com/in/rongrong-ella-qian/" },
   { group: "ra", name: "Maria Kunigk-Bakalar", role: "Research Assistant", affiliation: "Miami University", image: null,                  url: null },
   { group: "ra", name: "Dean DiCarlo",         role: "Research Assistant", affiliation: "Miami University", image: "team/dean.jpg",       url: "https://www.linkedin.com/in/dean-dicarlo-ii/" },
   { group: "ra", name: "Peiyang Chen",         role: "Research Assistant", affiliation: "Georgia State University", image: "team/peiyang.jpg", url: null },
-  { group: "ra", name: "Jing Jing",            role: "Research Assistant", affiliation: "Miami University", image: "team/jingjing.jpg",   url: "https://www.linkedin.com/in/jingjing666888" },
   { group: "ra", name: "Grace Moore",          role: "Research Assistant", affiliation: "Miami University", image: "team/grace.jpg",      url: "https://www.linkedin.com/in/gracemoore22" },
   { group: "ra", name: "Audrey Chiu",          role: "Research Assistant", affiliation: "Miami University", image: null,                  url: "https://www.linkedin.com/in/audrey-frances-chiu-55908242a/" },
 ];
